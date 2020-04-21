@@ -48,11 +48,6 @@ public class FeedbackActivity extends AppCompatActivity implements AdapterView.O
         setupSpinner();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
     public void setupSpinner () {
         spinner = findViewById(R.id.feedbackCategory);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,

@@ -7,7 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.drive360_android.MainActivity;
@@ -18,10 +21,14 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Map;
 
-public class AddTipActivity extends AppCompatActivity {
+public class AddTipActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private FirebaseDatabase firebaseDB;
     private DatabaseReference rootRef;
     private DatabaseReference tipRef;
+    private Spinner spinner;
+    private boolean validTipCategory;
+    private static final String[] tipCategories
+            = {"Please choose tip category", "For beginners", "Traffic laws", "Driving warnings", "Others"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,39 @@ public class AddTipActivity extends AppCompatActivity {
         firebaseDB = FirebaseDatabase.getInstance();
         rootRef = firebaseDB.getReference();
         tipRef = rootRef.child("tips");
+
+        setupSpinner();
+    }
+
+    public void setupSpinner () {
+        spinner = findViewById(R.id.tipCategory);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, tipCategories);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+        switch (position) {
+            case 0:
+                validTipCategory = false;
+                break;
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+                validTipCategory = true;
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
     }
 
     // Handle tip submission.
@@ -56,6 +96,10 @@ public class AddTipActivity extends AppCompatActivity {
         // Get current user's username.
         String username = sharedPreferences.getString("username", "");
 
+        // Get tip category from spinner/dropdown.
+        Spinner spinner = findViewById(R.id.tipCategory);
+        String category = spinner.getSelectedItem().toString().trim();
+
         // Get tip text from text field.
         EditText textInput = findViewById(R.id.tipText);
         String text = textInput.getText().toString().trim();
@@ -63,7 +107,7 @@ public class AddTipActivity extends AppCompatActivity {
         // Check for valid input.
         if (text != null && !text.equals("")) {
             // Construct tip object.
-            return new Tip(username, text);
+            return new Tip(username, text, category);
         } else {
             // Notify invalid input using toast and return null.
             Toast.makeText(this, "Please make sure to fill out tip!", Toast.LENGTH_LONG).show();
