@@ -39,10 +39,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void submitUser(User user) {
-        // Convert user to key-value pairs.
-        Map<String, Object> userValues = user.toMap();
         // Send data to users branch on Firebase.
-        userRef.child(user.getUsername()).setValue(userValues);
+        userRef.child(user.getUsername()).setValue(user);
     }
 
     // Log the user in.
