@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon,android:theme">
-        <activity android:name=".pages.AddTipActivity"></activity>
+
         <activity android:name=".TestQuestions" />
         <activity android:name=".CreateTest" />
         <activity
@@ -25,10 +25,17 @@
         <activity
             android:name=".AdminDashboardActivity"
             android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".pages.AddTipActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".pages.FeedbackActivity"
             android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".auth.RegisterActivity"

@@ -45,6 +45,8 @@ public class FeedbackActivity extends AppCompatActivity implements AdapterView.O
         rootRef = firebaseDB.getReference();
         feedbackRef = rootRef.child("feedbacks");
 
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+
         setupSpinner();
     }
 
