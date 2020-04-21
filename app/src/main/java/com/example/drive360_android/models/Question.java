@@ -1,4 +1,4 @@
-package com.example.drive360_android;
+package com.example.drive360_android.models;
 
 public class Question {
     private String category;

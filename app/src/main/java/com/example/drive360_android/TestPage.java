@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.drive360_android.auth.LoginActivity;
+import com.example.drive360_android.pages.AddTest;
 
 import java.util.ArrayList;
 
@@ -53,7 +54,7 @@ public class TestPage extends AppCompatActivity {
         startActivity(intent);
     }
     public void goToCreateTest() {
-        Intent intent = new Intent(this, CreateTest.class);
+        Intent intent = new Intent(this, AddTest.class);
         startActivity(intent);
     }
 

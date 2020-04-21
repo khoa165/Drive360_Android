@@ -3,6 +3,8 @@ package com.example.drive360_android;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.drive360_android.models.Question;
+
 import java.util.ArrayList;
 
 public class DBHelper {
