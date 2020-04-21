@@ -7,7 +7,7 @@
     tools:context=".pages.AddTipActivity">
 
     <TextView
-        android:id="@+id/feedbackHeading"
+        android:id="@+id/addTipHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_tip_heading"
@@ -20,7 +20,7 @@
         app:layout_constraintVertical_bias="0.20" />
 
     <EditText
-        android:id="@+id/feedbackMessage"
+        android:id="@+id/tipText"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -34,7 +34,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/feedbackHeading"
+        app:layout_constraintTop_toBottomOf="@id/addTipHeading"
         app:layout_constraintVertical_bias="0.15" />
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:onClick="submitTip"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tipText"
+        app:layout_constraintVertical_bias="0.1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

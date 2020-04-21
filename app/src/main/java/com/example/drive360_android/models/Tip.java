@@ -1,17 +1,15 @@
 package com.example.drive360_android.models;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Tip {
     public String username;
     public String text;
     public int votes;
-    public Set<String> voters = new HashSet<String>();
+    public List<String> voters = new ArrayList<String>();
 
-    public Tip(String username, String text, int votes) {
+    public Tip(String username, String text) {
         this.username = username;
         this.text = text;
         this.votes = 1;

@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 
-public class FeedbackActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, ValueEventListener {
+public class FeedbackActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private FirebaseDatabase firebaseDB;
     private DatabaseReference rootRef;
     private DatabaseReference feedbackRef;
@@ -97,7 +97,7 @@ public class FeedbackActivity extends AppCompatActivity implements AdapterView.O
             // Send data to feedbacks branch on Firebase.
             feedbackRef.child(id).setValue(feedbackValues);
             // Redirect the user to main screen.
-            goToLoginScreen();
+            goToMainScreen();
         }
     }
 
@@ -132,18 +132,8 @@ public class FeedbackActivity extends AppCompatActivity implements AdapterView.O
     }
 
     // Redirect the user to main screen.
-    public void goToLoginScreen() {
+    public void goToMainScreen() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-    }
-
-    @Override
-    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-    }
-
-    @Override
-    public void onCancelled(@NonNull DatabaseError databaseError) {
-
     }
 }
