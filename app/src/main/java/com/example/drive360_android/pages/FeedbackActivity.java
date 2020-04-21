@@ -1,4 +1,4 @@
-package com.example.drive360_android;
+package com.example.drive360_android.pages;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.drive360_android.MainActivity;
+import com.example.drive360_android.R;
+import com.example.drive360_android.models.Feedback;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 
-public class FeedbackActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, ValueEventListener {
+public class FeedbackActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private FirebaseDatabase firebaseDB;
     private DatabaseReference rootRef;
     private DatabaseReference feedbackRef;
@@ -42,12 +45,9 @@ public class FeedbackActivity extends AppCompatActivity implements AdapterView.O
         rootRef = firebaseDB.getReference();
         feedbackRef = rootRef.child("feedbacks");
 
-        setupSpinner();
-    }
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+        setupSpinner();
     }
 
     public void setupSpinner () {
@@ -87,14 +87,12 @@ public class FeedbackActivity extends AppCompatActivity implements AdapterView.O
         Feedback feedback = constructFeedback();
 
         if (feedback != null) {
-            // Convert feedback to key-value pairs.
-            Map<String, Object> feedbackValues = feedback.toMap();
             // Generate id;
             String id = feedbackRef.push().getKey();
             // Send data to feedbacks branch on Firebase.
-            feedbackRef.child(id).setValue(feedbackValues);
+            feedbackRef.child(id).setValue(feedback);
             // Redirect the user to main screen.
-            goToLoginScreen();
+            goToMainScreen();
         }
     }
 
@@ -129,18 +127,8 @@ public class FeedbackActivity extends AppCompatActivity implements AdapterView.O
     }
 
     // Redirect the user to main screen.
-    public void goToLoginScreen() {
+    public void goToMainScreen() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-    }
-
-    @Override
-    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-    }
-
-    @Override
-    public void onCancelled(@NonNull DatabaseError databaseError) {
-
     }
 }

@@ -55,6 +55,7 @@
         android:layout_height="85dp"
         android:background="@drawable/rounded_white_button"
         android:fontFamily="@font/arimo"
+        android:onClick="goToAddTipScreen"
         android:text="Tips"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

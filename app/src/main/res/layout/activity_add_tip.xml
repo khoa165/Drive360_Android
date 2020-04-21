@@ -4,25 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pages.FeedbackActivity">
+    tools:context=".pages.AddTipActivity">
 
     <TextView
-        android:id="@+id/feedbackHeading"
+        android:id="@+id/addTipHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/feedback_heading"
+        android:text="@string/add_tip_heading"
         android:textSize="20dp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.07" />
-
+        app:layout_constraintVertical_bias="0.15" />
 
     <Spinner
-        android:id="@+id/feedbackCategory"
-        android:layout_width="250dp"
+        android:id="@+id/tipCategory"
+        android:layout_width="300dp"
         android:layout_height="50dp"
         android:background="#eee"
         android:textSize="10dp"
@@ -30,52 +29,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/feedbackHeading"
-        app:layout_constraintVertical_bias="0.077" />
+        app:layout_constraintTop_toBottomOf="@id/addTipHeading"
+        app:layout_constraintVertical_bias="0.065" />
 
     <EditText
-        android:id="@+id/feedbackMessage"
-        android:layout_width="250dp"
+        android:id="@+id/tipText"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="@string/feedback_hint"
+        android:hint="@string/add_tip_hint"
         android:inputType="textMultiLine"
-        android:maxLines="5"
-        android:minLines="5"
+        android:maxLines="20"
+        android:minLines="8"
         android:scrollbars="vertical"
         android:scrollHorizontally="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/feedbackCategory"
-        app:layout_constraintVertical_bias="0.094" />
-
-    <RatingBar
-        android:id="@+id/feedbackRating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:isIndicator="false"
-        android:numStars="5"
-        android:stepSize="0.5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/feedbackMessage"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintTop_toBottomOf="@id/tipCategory"
+        app:layout_constraintVertical_bias="0.20" />
 
     <Button
         android:id="@+id/submitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Submit"
-        android:onClick="submitFeedback"
+        android:onClick="submitTip"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/feedbackRating"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintTop_toBottomOf="@id/tipText"
+        app:layout_constraintVertical_bias="0.2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
