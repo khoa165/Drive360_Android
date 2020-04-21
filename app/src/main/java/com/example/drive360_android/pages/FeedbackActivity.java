@@ -85,12 +85,10 @@ public class FeedbackActivity extends AppCompatActivity implements AdapterView.O
         Feedback feedback = constructFeedback();
 
         if (feedback != null) {
-            // Convert feedback to key-value pairs.
-            Map<String, Object> feedbackValues = feedback.toMap();
             // Generate id;
             String id = feedbackRef.push().getKey();
             // Send data to feedbacks branch on Firebase.
-            feedbackRef.child(id).setValue(feedbackValues);
+            feedbackRef.child(id).setValue(feedback);
             // Redirect the user to main screen.
             goToMainScreen();
         }
