@@ -1,4 +1,4 @@
-package com.example.drive360_android;
+package com.example.drive360_android.auth;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.drive360_android.MainActivity;
+import com.example.drive360_android.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,59 +46,52 @@ public class LoginActivity extends AppCompatActivity {
         // Check for valid input.
         if (username != null && !username.equals("") && password != null && !password.equals("")) {
             // Check if login credentials matches.
-            if (checkCredentials(username, password)) {
-                goToMainScreen(username);
-            } else {
-                Toast.makeText(LoginActivity.this, "Invalid credentials. Please try again!", Toast.LENGTH_LONG).show();
-            }
+            checkCredentials(username, password);
         } else {
             Toast.makeText(LoginActivity.this, "Invalid input. Please try again!", Toast.LENGTH_LONG).show();
         }
     }
 
     // Check if username and password match.
-    public boolean checkCredentials(String username, String password) {
-        SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
-
-        // Get expectedPassword from given username, default to empty string.
-        String expectedPassword = sharedPreferences.getString(username, "");
-
-        // Check if password matches as expected.
-        return password.equals(expectedPassword);
-    }
-
-    // Redirect the user to main screen.
-    public void goToMainScreen(String username) {
-        SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
-
-        // Set isAuthenticated to true and pass in username for main screen.
-        sharedPreferences.edit().putBoolean("isAuthenticated", true).apply();
-        sharedPreferences.edit().putString("username", username).apply();
-
-        // Check whether user is app admin.
-        checkAdminAuthorization(username);
-
-        // Redirect the user to main screen.
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    // Check whether user is app admin.
-    private void checkAdminAuthorization(final String username) {
-        userRef.addValueEventListener(new ValueEventListener() {
+    public void checkCredentials(final String username, final String password) {
+        userRef.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
+                if (dataSnapshot.exists()) {
+                    // Retrieve expected password, salt, and isAdmin from Firebase.
+                    boolean isAdmin = (Boolean) dataSnapshot.child("isAdmin").getValue();
+                    String expected = (String) dataSnapshot.child("password").getValue();
+                    boolean isAuthenticated = PasswordHash.checkPasswordsMatch(password, expected, null);
 
-                // Set isAdmin to true for user with admin authorization.
-                boolean isAdmin = (Boolean) dataSnapshot.child(username).getValue();
-                sharedPreferences.edit().putBoolean("isAdmin", isAdmin).apply();
+                    // If user is authenticated, set shared preferences.
+                    if (isAuthenticated) {
+                        SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
+
+                        // Set isAuthenticated to true and pass in username for main screen.
+                        sharedPreferences.edit().putBoolean("isAuthenticated", true).apply();
+                        sharedPreferences.edit().putString("username", username).apply();
+                        sharedPreferences.edit().putBoolean("isAdmin", isAdmin).apply();
+
+                        goToMainScreen(username);
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Invalid credentials. Please try again!", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(LoginActivity.this, "Invalid credentials. Please try again!", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+    }
+
+    // Redirect the user to main screen.
+    public void goToMainScreen(String username) {
+        // Redirect the user to main screen.
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     // Redirect the user to register screen.

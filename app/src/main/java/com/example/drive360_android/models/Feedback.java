@@ -1,10 +1,9 @@
-package com.example.drive360_android;
+package com.example.drive360_android.models;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Feedback {
-    private String id;
     private String username;
     private String category;
     private String message;

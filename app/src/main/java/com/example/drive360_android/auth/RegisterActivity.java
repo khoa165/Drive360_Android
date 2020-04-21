@@ -1,4 +1,4 @@
-package com.example.drive360_android;
+package com.example.drive360_android.auth;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,11 +11,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.drive360_android.MainActivity;
+import com.example.drive360_android.R;
+import com.example.drive360_android.models.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDB;
@@ -33,6 +38,13 @@ public class RegisterActivity extends AppCompatActivity {
         userRef = rootRef.child("users");
     }
 
+    private void submitUser(User user) {
+        // Convert user to key-value pairs.
+        Map<String, Object> userValues = user.toMap();
+        // Send data to users branch on Firebase.
+        userRef.child(user.getUsername()).setValue(userValues);
+    }
+
     // Log the user in.
     public void register(View view) {
         // Get username and password.
@@ -44,25 +56,24 @@ public class RegisterActivity extends AppCompatActivity {
         // Check for valid input.
         if (username != null && !username.equals("") && password != null && !password.equals("")) {
             // Check if login credentials matches.
-            if (checkUniqueUsername(username)) {
-                goToMainScreen(username, password);
-            } else {
-                Toast.makeText(RegisterActivity.this, "Username already taken. Please try another one!", Toast.LENGTH_LONG).show();
-            }
+            checkUniqueUsername(username, password);
         } else {
             Toast.makeText(RegisterActivity.this, "Invalid input. Please try again!", Toast.LENGTH_LONG).show();
         }
     }
 
     // Check if username already exists.
-    public boolean checkUniqueUsername(String username) {
-        final boolean[] unique = {true};
-        userRef.orderByKey().equalTo(username).addValueEventListener(new ValueEventListener() {
+    public void checkUniqueUsername(String username, String password) {
+        userRef.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Check if username already exists.
-                if(dataSnapshot.exists()) {
-                    unique[0] = false;
+                if (dataSnapshot.exists()) {
+                    Toast.makeText(RegisterActivity.this, "Username already taken. Please try another one!", Toast.LENGTH_LONG).show();
+                } else {
+                    User user = new User(username, password);
+                    submitUser(user);
+                    goToMainScreen(user.getUsername());
                 }
             }
 
@@ -70,23 +81,16 @@ public class RegisterActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
-        return unique[0];
     }
 
     // Redirect the user to main screen.
-    public void goToMainScreen(String username, String password) {
+    public void goToMainScreen(String username) {
         SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
-
-        // Save username and password.
-        sharedPreferences.edit().putString(username, password).apply();
 
         // Set isAuthenticated to true, isAdmin to false and pass in username for main screen.
         sharedPreferences.edit().putBoolean("isAuthenticated", true).apply();
         sharedPreferences.edit().putBoolean("isAdmin", false).apply();
         sharedPreferences.edit().putString("username", username).apply();
-
-        userRef.child(username).setValue(false);
 
         // Redirect the user to main screen.
         Intent intent = new Intent(this, MainActivity.class);
