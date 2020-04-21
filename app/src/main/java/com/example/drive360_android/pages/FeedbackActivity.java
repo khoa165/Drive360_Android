@@ -1,4 +1,4 @@
-package com.example.drive360_android;
+package com.example.drive360_android.pages;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.drive360_android.MainActivity;
+import com.example.drive360_android.R;
 import com.example.drive360_android.models.Feedback;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

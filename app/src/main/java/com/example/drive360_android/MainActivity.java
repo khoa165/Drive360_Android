@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.drive360_android.auth.LoginActivity;
+import com.example.drive360_android.pages.AddTipActivity;
+import com.example.drive360_android.pages.FeedbackActivity;
 
 import java.util.Calendar;
 
@@ -153,6 +155,12 @@ public class MainActivity extends AppCompatActivity {
     // Transition to feedback screen.
     public void goToFeedbackScreen(View view) {
         Intent intent = new Intent(this, FeedbackActivity.class);
+        startActivity(intent);
+    }
+
+    // Transition to add tip screen.
+    public void goToAddTipScreen(View view) {
+        Intent intent = new Intent(this, AddTipActivity.class);
         startActivity(intent);
     }
 
