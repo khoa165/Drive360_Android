@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/driveButton"
         android:layout_width="196dp"
         android:layout_height="85dp"
         android:background="@drawable/rounded_white_bbackground"
@@ -21,7 +21,7 @@
         app:layout_constraintVertical_bias="0.095" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/learnButton"
         android:layout_width="196dp"
         android:layout_height="85dp"
         android:background="@drawable/rounded_white_bbackground"
@@ -40,7 +40,7 @@
         android:layout_height="85dp"
         android:background="@drawable/rounded_white_bbackground"
         android:fontFamily="@font/arimo"
-        android:onClick="onTestClicked"
+        android:onClick="goToTestScreen"
         android:text="Test"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +50,7 @@
         app:layout_constraintVertical_bias="0.508" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/tipButton"
         android:layout_width="196dp"
         android:layout_height="85dp"
         android:background="@drawable/rounded_white_bbackground"
@@ -65,7 +65,7 @@
         app:layout_constraintVertical_bias="0.716" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/feedbackButton"
         android:layout_width="196dp"
         android:layout_height="85dp"
         android:background="@drawable/rounded_white_bbackground"

@@ -13,4 +13,5 @@
     <string name="add_tip_hint">Share helpful tips with your learning fellows :)</string>
     <string name="feedback_hint">Let us know :)</string>
     <string name="admin_dashboard_heading">Drive360 overview!</string>
+    <string name="submit">Submit</string>
 </resources>

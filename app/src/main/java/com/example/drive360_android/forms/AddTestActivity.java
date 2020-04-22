@@ -1,4 +1,4 @@
-package com.example.drive360_android.pages;
+package com.example.drive360_android.forms;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,11 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.drive360_android.R;
 import com.example.drive360_android.TestQuestions;
 
-public class AddTest extends AppCompatActivity {
+public class AddTestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_test);
+
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
     }
 
     public void createTest(View view){
