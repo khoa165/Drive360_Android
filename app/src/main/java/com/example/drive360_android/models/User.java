@@ -2,9 +2,6 @@ package com.example.drive360_android.models;
 
 import com.example.drive360_android.auth.PasswordHash;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class User {
     public String username;
     public String password;

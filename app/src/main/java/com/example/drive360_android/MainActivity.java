@@ -18,7 +18,7 @@ import com.example.drive360_android.auth.LoginActivity;
 import com.example.drive360_android.forms.AddTipActivity;
 import com.example.drive360_android.forms.FeedbackActivity;
 import com.example.drive360_android.pages.AdminDashboardActivity;
-import com.example.drive360_android.pages.TestDashboard;
+import com.example.drive360_android.pages.TestActivity;
 
 import java.util.Calendar;
 
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToTestScreen(View view) {
-        Intent intent = new Intent(this, TestDashboard.class);
+        Intent intent = new Intent(this, TestActivity.class);
         startActivity(intent);
     }
 }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".forms.AddQuestionActivity">
+
+    <ImageView
+        android:id="@+id/backgroundTestImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/test_image" />
+
+    <TextView
+        android:id="@+id/addTestHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_test_heading"
+        android:textSize="25dp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15" />
+
+    <EditText
+        android:id="@+id/testName"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_dark_background"
+        android:ems="10"
+        android:textColorHint="#fff"
+        android:textColor="#fff"
+        android:fontFamily="@font/arimo"
+        android:inputType="textPersonName"
+        android:hint="@string/test_name_hint"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addTestHeading"
+        app:layout_constraintVertical_bias="0.15" />
+
+    <EditText
+        android:id="@+id/testDescription"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_dark_background"
+        android:ems="10"
+        android:layout_marginTop="15dp"
+        android:textColorHint="#fff"
+        android:textColor="#fff"
+        android:gravity="start|top"
+        android:hint="@string/test_description_hint"
+        android:inputType="textMultiLine"
+        android:maxLines="20"
+        android:minLines="8"
+        android:scrollbars="vertical"
+        android:scrollHorizontally="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/testName"
+        app:layout_constraintVertical_bias="0.01" />
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_dark_background"
+        android:padding="15dp"
+        android:textColor="#fff"
+        android:fontFamily="@font/arimo"
+        android:onClick="createQuestion"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/testDescription"
+        app:layout_constraintVertical_bias="0.4" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

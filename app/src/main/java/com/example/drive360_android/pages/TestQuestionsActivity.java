@@ -1,11 +1,13 @@
-package com.example.drive360_android;
+package com.example.drive360_android.pages;
 
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class TestQuestions extends AppCompatActivity {
+import com.example.drive360_android.R;
+
+public class TestQuestionsActivity extends AppCompatActivity {
     public void onSubmitClicked(View view){
 
 

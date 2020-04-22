@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class TestDashboard extends AppCompatActivity {
+public class TestActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDB;
     private DatabaseReference rootRef;
     private DatabaseReference adminTestRef;
