@@ -1,4 +1,4 @@
-package com.example.drive360;
+package com.example.drive360_android.pages;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +16,8 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.drive360_android.R;
+import com.example.drive360_android.auth.LoginActivity;
 
 
 public class LearnActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -284,7 +286,7 @@ public class LearnActivity extends AppCompatActivity implements AdapterView.OnIt
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
 
         // Get username and set text of menu item to welcome user.
         String username = sharedPreferences.getString("username", "");
