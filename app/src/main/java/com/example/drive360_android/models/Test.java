@@ -6,6 +6,9 @@ public class Test {
     public String name;
     public String description;
 
+    public Test() {
+    }
+
     public Test(String author, boolean isOfficial, String name, String description) {
         this.author = author;
         this.isOfficial = isOfficial;

@@ -45,9 +45,8 @@ public class AddTestActivity extends AppCompatActivity {
             userTestRef.child(test.author).child(id).setValue(test);
 
             // Transition the user to add question screen.
-            goToAddQuestionScreen();
+            goToTestQuestionScreen(id);
         }
-        goToAddQuestionScreen();
     }
 
     // Validate user input and return test object if valid, otherwise null.
@@ -75,8 +74,9 @@ public class AddTestActivity extends AppCompatActivity {
             return null;
         }
     }
-    public void goToAddQuestionScreen() {
+    public void goToTestQuestionScreen(String id) {
         Intent intent = new Intent(this, TestQuestionsActivity.class);
+        intent.putExtra("testId", id);
         startActivity(intent);
     }
 }

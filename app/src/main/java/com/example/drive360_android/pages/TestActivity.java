@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.drive360_android.R;
 import com.example.drive360_android.auth.LoginActivity;
 import com.example.drive360_android.forms.AddTestActivity;
+import com.example.drive360_android.models.Test;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,24 +30,32 @@ public class TestActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDB;
     private DatabaseReference rootRef;
     private DatabaseReference adminTestRef;
+    private DatabaseReference userTestRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test_dashboard);
+        setContentView(R.layout.activity_test);
 
-        // Initialize database, root and feedback references.
+        // Initialize database, root and admin test references.
         firebaseDB = FirebaseDatabase.getInstance();
         rootRef = firebaseDB.getReference();
         adminTestRef = rootRef.child("admin_tests");
+
+        SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
+
+        // Get current user's username.
+        String username = sharedPreferences.getString("username", "");
+        // Initialize user test references.
+        userTestRef = rootRef.child("user_tests").child(username);
 
         setupListView();
     }
 
     private void setupListView() {
-        final ArrayList<String> test = new ArrayList<>();
+        final ArrayList<String> tests = new ArrayList<>();
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, test);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, tests);
         ListView listView = findViewById(R.id.testList);
         listView.setAdapter(adapter);
 
@@ -54,11 +63,27 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    for(DataSnapshot d : dataSnapshot.getChildren()) {
-                        test.add(d.getKey());
+                    for(DataSnapshot d1 : dataSnapshot.getChildren()) {
+                        tests.add(d1.getKey());
                     }
 
-                    listView.setAdapter(adapter);
+                    userTestRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                for(DataSnapshot d2 : dataSnapshot.getChildren()) {
+                                    Test test = d2.getValue(Test.class);
+                                    tests.add(test.name);
+                                }
+
+                                listView.setAdapter(adapter);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
                 }
             }
 
