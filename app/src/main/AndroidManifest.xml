@@ -23,12 +23,12 @@
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".pages.TestActivity"
-            android:parentActivityName=".pages.TestActivity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".pages.TestQuestionsActivity"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".pages.TestActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity

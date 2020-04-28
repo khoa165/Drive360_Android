@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -31,6 +32,9 @@ public class TestActivity extends AppCompatActivity {
     private DatabaseReference rootRef;
     private DatabaseReference adminTestRef;
     private DatabaseReference userTestRef;
+    private ArrayList<String> tests;
+    private ArrayList<String> firebaseIds;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,21 +54,22 @@ public class TestActivity extends AppCompatActivity {
         userTestRef = rootRef.child("user_tests").child(username);
 
         setupListView();
+        setupTestItemListener();
     }
 
     private void setupListView() {
-        final ArrayList<String> tests = new ArrayList<>();
+        tests = new ArrayList<String>();
+        firebaseIds = new ArrayList<String>();
 
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, tests);
-        ListView listView = findViewById(R.id.testList);
-        listView.setAdapter(adapter);
+        listView = findViewById(R.id.testList);
 
         adminTestRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for(DataSnapshot d1 : dataSnapshot.getChildren()) {
-                        tests.add(d1.getKey());
+                        // tests.add(d1.getKey());
                     }
 
                     userTestRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -74,6 +79,7 @@ public class TestActivity extends AppCompatActivity {
                                 for(DataSnapshot d2 : dataSnapshot.getChildren()) {
                                     Test test = d2.getValue(Test.class);
                                     tests.add(test.name);
+                                    firebaseIds.add(d2.getKey());
                                 }
 
                                 listView.setAdapter(adapter);
@@ -89,6 +95,21 @@ public class TestActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    public void setupTestItemListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Initialize intent to take user to TestQuestionsActivity.
+                Intent intent = new Intent(getApplicationContext(), TestQuestionsActivity.class);
+
+                String firebaseId = firebaseIds.get(position);
+                // Add the position of the item that was clicked on as "noteid".
+                intent.putExtra("testId", firebaseId);
+                startActivity(intent);
             }
         });
     }

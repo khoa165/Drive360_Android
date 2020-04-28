@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.drive360_android.R;
 import com.example.drive360_android.auth.LoginActivity;
 import com.example.drive360_android.forms.AddQuestionActivity;
+import com.example.drive360_android.models.Question;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +30,7 @@ public class TestQuestionsActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDB;
     private DatabaseReference rootRef;
     private DatabaseReference userQuestionRef;
+    private String testId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +41,13 @@ public class TestQuestionsActivity extends AppCompatActivity {
         firebaseDB = FirebaseDatabase.getInstance();
         rootRef = firebaseDB.getReference();
 
+        SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
         Intent intent = getIntent();
-        String testId = intent.getStringExtra("testId");
 
-        userQuestionRef = rootRef.child("admin_tests").child(testId);
+        String username = sharedPreferences.getString("username", "");
+        testId = intent.getStringExtra("testId");
+
+        userQuestionRef = rootRef.child("user_tests").child(username).child(testId).child("questions");
 
         setupListView();
     }
@@ -59,7 +64,8 @@ public class TestQuestionsActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for(DataSnapshot d : dataSnapshot.getChildren()) {
-                        questions.add(d.getKey());
+                        Question question = d.getValue(Question.class);
+                        questions.add(question.title);
                     }
 
                     listView.setAdapter(adapter);
@@ -132,6 +138,7 @@ public class TestQuestionsActivity extends AppCompatActivity {
     // Transition to add test screen.
     public void goToAddQuestionScreen(View view) {
         Intent intent = new Intent(this, AddQuestionActivity.class);
+        intent.putExtra("testId", testId);
         startActivity(intent);
     }
 }

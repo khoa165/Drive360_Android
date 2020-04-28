@@ -26,7 +26,7 @@ public class AddTestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_test);
 
-        // Initialize database, root and feedback references.
+        // Initialize database, root and test references.
         firebaseDB = FirebaseDatabase.getInstance();
         rootRef = firebaseDB.getReference();
         userTestRef = rootRef.child("user_tests");
@@ -74,6 +74,7 @@ public class AddTestActivity extends AppCompatActivity {
             return null;
         }
     }
+
     public void goToTestQuestionScreen(String id) {
         Intent intent = new Intent(this, TestQuestionsActivity.class);
         intent.putExtra("testId", id);
