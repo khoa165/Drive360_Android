@@ -19,6 +19,7 @@ import com.example.drive360_android.forms.AddTipActivity;
 import com.example.drive360_android.forms.FeedbackActivity;
 import com.example.drive360_android.pages.AdminDashboardActivity;
 import com.example.drive360_android.pages.TestActivity;
+import com.example.drive360_android.pages.LearnActivity;
 
 import java.util.Calendar;
 
@@ -166,8 +167,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // Transition to test screen.
     public void goToTestScreen(View view) {
         Intent intent = new Intent(this, TestActivity.class);
+        startActivity(intent);
+    }
+
+    // Transition to learn screen.
+    public void goToLearnScreen(View view) {
+        Intent intent = new Intent(this, LearnActivity.class);
         startActivity(intent);
     }
 }
