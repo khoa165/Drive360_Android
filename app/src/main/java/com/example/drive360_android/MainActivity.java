@@ -15,8 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.drive360_android.auth.LoginActivity;
-import com.example.drive360_android.pages.AddTipActivity;
-import com.example.drive360_android.pages.FeedbackActivity;
+import com.example.drive360_android.forms.AddTipActivity;
+import com.example.drive360_android.forms.FeedbackActivity;
+import com.example.drive360_android.pages.AdminDashboardActivity;
+import com.example.drive360_android.pages.TestActivity;
 import com.example.drive360_android.pages.LearnActivity;
 
 import java.util.Calendar;
@@ -66,6 +68,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
+
+        // Get username and set text of menu item to welcome user.
+        String username = sharedPreferences.getString("username", "");
+        if (username != null && !username.equals("")) {
+            MenuItem item = menu.findItem(R.id.welcome);
+            item.setTitle("Welcome " + username);
+        }
+
+        boolean isAdmin = sharedPreferences.getBoolean("isAdmin", false);
+        if (!isAdmin) {
+            menu.findItem(R.id.admin_dashboard).setVisible(false);
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.logout) {
             SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
@@ -83,25 +104,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
-
-        // Get username and set text of menu item to welcome user.
-        String username = sharedPreferences.getString("username", "");
-        if (username != null && !username.equals("")) {
-            MenuItem item = menu.findItem(R.id.welcome);
-            item.setTitle("Welcome " + username);
-        }
-
-        boolean isAdmin = sharedPreferences.getBoolean("isAdmin", false);
-        if (!isAdmin) {
-            menu.findItem(R.id.admin_dashboard).setVisible(false);
-        }
-
-        return super.onPrepareOptionsMenu(menu);
     }
 
     /**
@@ -165,20 +167,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // Transition to feedback screen.
+    // Transition to test screen.
+    public void goToTestScreen(View view) {
+        Intent intent = new Intent(this, TestActivity.class);
+        startActivity(intent);
+    }
+
+    // Transition to learn screen.
     public void goToLearnScreen(View view) {
         Intent intent = new Intent(this, LearnActivity.class);
         startActivity(intent);
     }
-
-    public void onTestClicked(View view) {
-        SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
-        if (!sharedPreferences.getString("username", "").equals("")) {
-            String userName = sharedPreferences.getString("username", "");
-            Intent intent = new Intent(this, TestPage.class);
-            intent.putExtra("message", userName);
-            startActivity(intent);
-        }
-    }
-
 }

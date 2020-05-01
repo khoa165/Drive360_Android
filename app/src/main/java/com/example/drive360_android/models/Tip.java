@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tip {
-    public String username;
+    public String user;
     public String text;
     public String category;
     public int votes;
     public List<String> voters = new ArrayList<String>();
 
-    public Tip(String username, String text, String category) {
-        this.username = username;
+    public Tip(String user, String text, String category) {
+        this.user = user;
         this.text = text;
         this.category = category;
         this.votes = 1;
-        this.voters.add(username);
+        this.voters.add(user);
     }
 }
