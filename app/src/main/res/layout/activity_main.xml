@@ -18,7 +18,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.095" />
+        app:layout_constraintVertical_bias="0.1" />
+
+    <Button
+        android:id="@+id/classroomButton"
+        android:layout_width="196dp"
+        android:layout_height="85dp"
+        android:background="@drawable/rounded_white_background"
+        android:fontFamily="@font/arimo"
+        android:text="Classroom"
+        android:onClick="goToClassroomScreen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.35" />
 
     <Button
         android:id="@+id/learnButton"
@@ -30,40 +44,9 @@
         android:onClick="goToLearnScreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.303" />
-
-    <Button
-        android:id="@+id/testButton"
-        android:layout_width="196dp"
-        android:layout_height="85dp"
-        android:background="@drawable/rounded_white_background"
-        android:fontFamily="@font/arimo"
-        android:onClick="goToTestScreen"
-        android:text="Test"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.508" />
-
-    <Button
-        android:id="@+id/tipButton"
-        android:layout_width="196dp"
-        android:layout_height="85dp"
-        android:background="@drawable/rounded_white_background"
-        android:fontFamily="@font/arimo"
-        android:onClick="goToAddTipScreen"
-        android:text="Tips"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.716" />
+        app:layout_constraintVertical_bias="0.6" />
 
     <Button
         android:id="@+id/feedbackButton"
@@ -75,10 +58,9 @@
         android:text="Feedback"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.924" />
+        app:layout_constraintVertical_bias="0.85" />
 
     <ImageView
         android:id="@+id/backgroundMainImage"
