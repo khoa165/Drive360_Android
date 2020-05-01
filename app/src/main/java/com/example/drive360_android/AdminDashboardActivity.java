@@ -11,10 +11,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
+import java.util.ArrayList;
+
 public class AdminDashboardActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDB;
     private DatabaseReference rootRef;
     private DatabaseReference userRef;
+    private DatabaseReference feedbackRef;
+    private float averageRating;
+    private int questionCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +31,23 @@ public class AdminDashboardActivity extends AppCompatActivity {
         firebaseDB = FirebaseDatabase.getInstance();
         rootRef = firebaseDB.getReference();
         userRef = rootRef.child("users");
-
+        feedbackRef = rootRef.child("feedbacks");
         generateUserCount();
     }
+    private void calculateQuestionCount(){
+    }
 
+    private void calculateAverageRating(ArrayList<Float> ratings){
+        float averageRating = 0;
+        for(Float rating : ratings){
+            averageRating += rating;
+        }
+        averageRating /= ratings.size();
+    }
     private void generateUserCount() {
+        questionCount = 25;
+        averageRating = (float) 4.5;
+
         userRef.addValueEventListener(new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 long count = dataSnapshot.getChildrenCount();
@@ -38,5 +56,11 @@ public class AdminDashboardActivity extends AppCompatActivity {
             }
             public void onCancelled(DatabaseError databaseError) { }
         });
+        TextView countQuestions = findViewById(R.id.questionCount);
+        countQuestions.setText("Total number of questions: " + questionCount);
+
+        TextView aveRating = findViewById(R.id.averageRating);
+        //calculateAverageRating();
+        aveRating.setText("Average App rating: " + averageRating);
     }
 }
