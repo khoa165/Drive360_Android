@@ -42,10 +42,13 @@ public class TestQuestionsActivity extends AppCompatActivity {
         rootRef = firebaseDB.getReference();
 
         SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
-        Intent intent = getIntent();
 
         String username = sharedPreferences.getString("username", "");
-        testId = intent.getStringExtra("testId");
+        testId = sharedPreferences.getString("testId", "");
+
+        if (testId.equals("")) {
+            goToTestScreen();
+        }
 
         userQuestionRef = rootRef.child("user_tests").child(username).child(testId).child("questions");
 
@@ -139,6 +142,19 @@ public class TestQuestionsActivity extends AppCompatActivity {
     public void goToAddQuestionScreen(View view) {
         Intent intent = new Intent(this, AddQuestionActivity.class);
         intent.putExtra("testId", testId);
+        startActivity(intent);
+    }
+
+    // Transition to add test screen.
+    public void goToQuizScreen(View view) {
+        Intent intent = new Intent(this, QuizActivity.class);
+        intent.putExtra("testId", testId);
+        startActivity(intent);
+    }
+
+    // Transition to test screen.
+    public void goToTestScreen() {
+        Intent intent = new Intent(this, TestActivity.class);
         startActivity(intent);
     }
 }

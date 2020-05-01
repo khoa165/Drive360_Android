@@ -21,6 +21,8 @@ public class AddTestActivity extends AppCompatActivity {
     private DatabaseReference rootRef;
     private DatabaseReference userTestRef;
 
+    private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +33,7 @@ public class AddTestActivity extends AppCompatActivity {
         rootRef = firebaseDB.getReference();
         userTestRef = rootRef.child("user_tests");
 
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
     }
 
     public void createTest(View view) {
@@ -44,15 +46,15 @@ public class AddTestActivity extends AppCompatActivity {
             // Send data to tests branch on Firebase.
             userTestRef.child(test.author).child(id).setValue(test);
 
+            sharedPreferences.edit().putString("testId", id).apply();
+
             // Transition the user to add question screen.
-            goToTestQuestionScreen(id);
+            goToTestQuestionScreen();
         }
     }
 
     // Validate user input and return test object if valid, otherwise null.
     private Test constructTest() {
-        SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
-
         // Get current user's username.
         String username = sharedPreferences.getString("username", "");
 
@@ -75,9 +77,8 @@ public class AddTestActivity extends AppCompatActivity {
         }
     }
 
-    public void goToTestQuestionScreen(String id) {
+    public void goToTestQuestionScreen() {
         Intent intent = new Intent(this, TestQuestionsActivity.class);
-        intent.putExtra("testId", id);
         startActivity(intent);
     }
 }

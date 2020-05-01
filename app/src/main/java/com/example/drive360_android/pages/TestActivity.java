@@ -35,6 +35,7 @@ public class TestActivity extends AppCompatActivity {
     private ArrayList<String> tests;
     private ArrayList<String> firebaseIds;
     private ListView listView;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class TestActivity extends AppCompatActivity {
         rootRef = firebaseDB.getReference();
         adminTestRef = rootRef.child("admin_tests");
 
-        SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
 
         // Get current user's username.
         String username = sharedPreferences.getString("username", "");
@@ -106,9 +107,9 @@ public class TestActivity extends AppCompatActivity {
                 // Initialize intent to take user to TestQuestionsActivity.
                 Intent intent = new Intent(getApplicationContext(), TestQuestionsActivity.class);
 
-                String firebaseId = firebaseIds.get(position);
-                // Add the position of the item that was clicked on as "noteid".
-                intent.putExtra("testId", firebaseId);
+                String testId = firebaseIds.get(position);
+                sharedPreferences.edit().putString("testId", testId).apply();
+
                 startActivity(intent);
             }
         });
@@ -123,8 +124,6 @@ public class TestActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
-
         // Get username and set text of menu item to welcome user.
         String username = sharedPreferences.getString("username", "");
         if (username != null && !username.equals("")) {
@@ -143,8 +142,6 @@ public class TestActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.logout) {
-            SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
-
             // Set isAuthenticated to false and remove username form sharedPreferences.
             sharedPreferences.edit().putBoolean("isAuthenticated", false).apply();
             sharedPreferences.edit().remove("username").apply();

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.drive360_android.R;
 import com.example.drive360_android.models.Question;
+import com.example.drive360_android.pages.TestActivity;
 import com.example.drive360_android.pages.TestQuestionsActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -31,6 +32,7 @@ public class AddQuestionActivity extends AppCompatActivity implements AdapterVie
     private boolean validAnswer;
     private static final String[] answerChoices
             = {"Please set the correct answer", "A", "B", "C", "D"};
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +43,17 @@ public class AddQuestionActivity extends AppCompatActivity implements AdapterVie
         firebaseDB = FirebaseDatabase.getInstance();
         rootRef = firebaseDB.getReference();
 
-        SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
+
         Intent intent = getIntent();
 
         String username = sharedPreferences.getString("username", "");
-        testId = intent.getStringExtra("testId");
+        testId = sharedPreferences.getString("testId", "");
+
+        if (testId.equals("")) {
+            goToTestScreen();
+        }
+
         userQuestionRef = rootRef.child("user_tests").child(username).child(testId).child("questions");
 
         setupSpinner();
@@ -93,7 +101,7 @@ public class AddQuestionActivity extends AppCompatActivity implements AdapterVie
             userQuestionRef.child(id).setValue(question);
 
             // Redirect back to add question screen.
-            goToTestQuestionScreen(id);
+            goToTestQuestionScreen();
         }
     }
 
@@ -142,9 +150,14 @@ public class AddQuestionActivity extends AppCompatActivity implements AdapterVie
         }
     }
 
-    public void goToTestQuestionScreen(String id) {
+    // Transition to test screen.
+    public void goToTestScreen() {
+        Intent intent = new Intent(this, TestActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToTestQuestionScreen() {
         Intent intent = new Intent(this, TestQuestionsActivity.class);
-        intent.putExtra("testId", testId);
         startActivity(intent);
     }
 }

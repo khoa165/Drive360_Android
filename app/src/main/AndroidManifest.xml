@@ -15,10 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon,android:theme">
-        <activity android:name=".forms.AddQuestionActivity"></activity>
+
         <activity
             android:name=".pages.AdminDashboardActivity"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".pages.QuizActivity"
+            android:parentActivityName=".pages.TestQuestionsActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
@@ -37,6 +42,11 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
+            android:name=".forms.AddQuestionActivity"
+            android:parentActivityName=".pages.TestQuestionsActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
             android:name=".forms.AddTipActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
@@ -48,8 +58,8 @@
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".pages.LearnActivity"
-            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".auth.RegisterActivity"
