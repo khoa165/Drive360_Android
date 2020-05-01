@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.drive360_android.R;
 import com.example.drive360_android.models.Question;
@@ -31,9 +32,15 @@ public class QuizActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private int currentQuestion = 0;
     private boolean firstAttemptUsed = false;
+    private boolean secondAttemptUsed = false;
+    private int firstAttemptCorrect = 0;
+    private int secondAttemptCorrect = 0;
+    private boolean quizDone = false;
 
     private TextView questionTitle;
+    private List<Button> answerButtons;
     private Button firstChoiceButton, secondChoiceButton, thirdChoiceButton, fourthChoiceButton;
+    private Button nextQuestionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +68,15 @@ public class QuizActivity extends AppCompatActivity {
         secondChoiceButton = (Button) findViewById(R.id.secondChoiceButton);
         thirdChoiceButton = (Button) findViewById(R.id.thirdChoiceButton);
         fourthChoiceButton = (Button) findViewById(R.id.fourthChoiceButton);
+        nextQuestionButton = (Button) findViewById(R.id.nextQuestionButton);
+
+        nextQuestionButton.setVisibility(View.GONE);
+
+        answerButtons = new ArrayList<Button>();
+        answerButtons.add(firstChoiceButton);
+        answerButtons.add(secondChoiceButton);
+        answerButtons.add(thirdChoiceButton);
+        answerButtons.add(fourthChoiceButton);
     }
 
     private void getQuestions() {
@@ -76,7 +92,9 @@ public class QuizActivity extends AppCompatActivity {
                     }
 
                     extractCorrectAnswers();
-                    setupFirstQuestion();
+                    if (questions.size() > 0) {
+                        setupQuestion();
+                    }
                 }
             }
 
@@ -107,36 +125,94 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
-    private void setupFirstQuestion() {
-        if (questions.size() > 0) {
-            Question q = questions.get(0);
-            questionTitle.setText(q.title);
-            firstChoiceButton.setText(q.answerChoices.get(0));
-            secondChoiceButton.setText(q.answerChoices.get(1));
-            thirdChoiceButton.setText(q.answerChoices.get(2));
-            fourthChoiceButton.setText(q.answerChoices.get(3));
-        }
+    private void setupQuestion() {
+        Question q = questions.get(currentQuestion);
+        questionTitle.setText(q.title);
+        firstChoiceButton.setText(q.answerChoices.get(0));
+        secondChoiceButton.setText(q.answerChoices.get(1));
+        thirdChoiceButton.setText(q.answerChoices.get(2));
+        fourthChoiceButton.setText(q.answerChoices.get(3));
     }
 
     public void firstAnswerClicked(View view) {
-        boolean isCorrect = isCorrectAnswer(0);
+        processUserAnswer(0);
     }
 
     public void secondAnswerClicked(View view) {
-        boolean isCorrect = isCorrectAnswer(1);
+        processUserAnswer(1);
     }
 
     public void thirdAnswerClicked(View view) {
-        boolean isCorrect = isCorrectAnswer(2);
+        processUserAnswer(2);
     }
 
     public void fourthAnswerClicked(View view) {
-        boolean isCorrect = isCorrectAnswer(3);
+        processUserAnswer(3);
     }
 
-    private boolean isCorrectAnswer(int choice) {
-        firstAttemptUsed = true;
-        return choice == correctAnswers.get(currentQuestion);
+    private void processUserAnswer(int choice) {
+        if (!secondAttemptUsed) {
+            boolean isCorrect = choice == correctAnswers.get(currentQuestion);
+            if (!isCorrect) {
+                Button incorrectButton = answerButtons.get(choice);
+                incorrectButton.setBackgroundColor(getResources().getColor(R.color.red));
+                if (firstAttemptUsed) {
+                    Toast.makeText(this, "Keep practicing. You will conquer this next time!", Toast.LENGTH_LONG).show();
+                    Button correctButton = answerButtons.get(choice);
+                    correctButton.setBackgroundColor(getResources().getColor(R.color.green));
+                    checkNextQuestionAvailable();
+                } else {
+                    Toast.makeText(this, "Incorrect answer. Please try again!", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(this, "Nice job! You answered correctly!", Toast.LENGTH_LONG).show();
+                Button correctButton = answerButtons.get(choice);
+                correctButton.setBackgroundColor(getResources().getColor(R.color.green));
+                if (firstAttemptUsed) {
+                    secondAttemptCorrect++;
+                } else {
+                    firstAttemptCorrect++;
+                }
+                checkNextQuestionAvailable();
+            }
+        }
+
+        if (firstAttemptUsed) {
+            secondAttemptUsed = true;
+        } else {
+            firstAttemptUsed = true;
+        }
+    }
+
+    private void checkNextQuestionAvailable() {
+        nextQuestionButton.setVisibility(View.VISIBLE);
+        if (currentQuestion == questions.size() - 1) {
+            nextQuestionButton.setText("See results");
+            quizDone = true;
+        }
+    }
+
+    public void goToNextQuestion(View view) {
+        if (quizDone) {
+            Intent intent = new Intent(this, QuizResultActivity.class);
+            intent.putExtra("firstAttemptCorrect", firstAttemptCorrect);
+            intent.putExtra("secondAttemptCorrect", secondAttemptCorrect);
+            intent.putExtra("numQuestions", questions.size());
+            startActivity(intent);
+        } else {
+            currentQuestion++;
+            setupQuestion();
+            resetFields();
+        }
+    }
+
+    private void resetFields() {
+        for (Button b : answerButtons) {
+            b.setBackgroundResource(android.R.drawable.btn_default);
+        }
+        firstAttemptUsed = false;
+        secondAttemptUsed= false;
+        nextQuestionButton.setVisibility(View.GONE);
     }
 
     // Transition to test screen.
