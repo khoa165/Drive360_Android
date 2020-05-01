@@ -9,15 +9,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.example.drive360_android.R;
 import com.example.drive360_android.auth.LoginActivity;
 import com.example.drive360_android.forms.AddQuestionActivity;
 import com.example.drive360_android.models.Question;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,44 +29,67 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.drive360_android.Config.userTestsRef;
+import static com.example.drive360_android.Config.adminTestsRef;
 
 public class TestQuestionsActivity extends AppCompatActivity {
-    private FirebaseDatabase firebaseDB;
-    private DatabaseReference rootRef;
-    private DatabaseReference userQuestionRef;
+    private SharedPreferences sharedPreferences;
+    private DatabaseReference questionsRef;
     private String testId;
+    private boolean isAdminTest = false;
+    private boolean editable = true;
+    private List<String> questions;
+    private Button startQuizButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_questions);
+        sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
 
-        // Initialize database, root and feedback references.
-        firebaseDB = FirebaseDatabase.getInstance();
-        rootRef = firebaseDB.getReference();
+        setupEditAuthorization();
+        setupListView();
+    }
 
-        SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
-
+    private void setupEditAuthorization() {
         String username = sharedPreferences.getString("username", "");
         testId = sharedPreferences.getString("testId", "");
+        isAdminTest = sharedPreferences.getBoolean("isAdminTest", false);
+        boolean isAdmin = sharedPreferences.getBoolean("isAdmin", false);
+        startQuizButton = (Button) findViewById(R.id.startQuizButton);
 
         if (testId.equals("")) {
             goToTestScreen();
         }
 
-        userQuestionRef = rootRef.child("user_tests").child(username).child(testId).child("questions");
+        if (!isAdmin && isAdminTest) {
+            editable = false;
 
-        setupListView();
+            // Disable add button if user does not have authorization.
+            FloatingActionButton addQuestionButton = (FloatingActionButton) findViewById(R.id.floatingAddButton);
+            CoordinatorLayout.LayoutParams p = (CoordinatorLayout.LayoutParams) addQuestionButton.getLayoutParams();
+            p.setAnchorId(View.NO_ID);
+            addQuestionButton.setLayoutParams(p);
+            addQuestionButton.setVisibility(View.GONE);
+        }
+
+        if (isAdminTest) {
+            questionsRef = adminTestsRef.child(testId).child("questions");
+        } else {
+            questionsRef = userTestsRef.child(username).child(testId).child("questions");
+        }
     }
 
     private void setupListView() {
-        final ArrayList<String> questions = new ArrayList<String>();
+        questions = new ArrayList<String>();
 
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, questions);
-        ListView listView = findViewById(R.id.testList);
+        ListView listView = findViewById(R.id.questionList);
         listView.setAdapter(adapter);
 
-        userQuestionRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        questionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -70,8 +97,15 @@ public class TestQuestionsActivity extends AppCompatActivity {
                         Question question = d.getValue(Question.class);
                         questions.add(question.title);
                     }
+                    if (questions.size() == 0) {
+                        startQuizButton.setText("Unfortunately no question available!");
+                    }
 
                     listView.setAdapter(adapter);
+                } else {
+                    if (questions.size() == 0) {
+                        startQuizButton.setText("Unfortunately no question available!");
+                    }
                 }
             }
 
@@ -114,7 +148,10 @@ public class TestQuestionsActivity extends AppCompatActivity {
 
             // Set isAuthenticated to false and remove username form sharedPreferences.
             sharedPreferences.edit().putBoolean("isAuthenticated", false).apply();
+            sharedPreferences.edit().putBoolean("isAdmin", false).apply();
             sharedPreferences.edit().remove("username").apply();
+            sharedPreferences.edit().remove("testId").apply();
+            sharedPreferences.edit().remove("isAdminTest").apply();
 
             // Redirect the user to login screen.
             goToLoginScreen();
@@ -140,16 +177,23 @@ public class TestQuestionsActivity extends AppCompatActivity {
 
     // Transition to add test screen.
     public void goToAddQuestionScreen(View view) {
-        Intent intent = new Intent(this, AddQuestionActivity.class);
-        intent.putExtra("testId", testId);
-        startActivity(intent);
+        if (editable) {
+            Intent intent = new Intent(this, AddQuestionActivity.class);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Invalid credentials. Please try again!", Toast.LENGTH_LONG).show();
+        }
     }
 
     // Transition to add test screen.
     public void goToQuizScreen(View view) {
-        Intent intent = new Intent(this, QuizActivity.class);
-        intent.putExtra("testId", testId);
-        startActivity(intent);
+        if (questions.size() > 0) {
+            Intent intent = new Intent(this, QuizActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, TestActivity.class);
+            startActivity(intent);
+        }
     }
 
     // Transition to test screen.

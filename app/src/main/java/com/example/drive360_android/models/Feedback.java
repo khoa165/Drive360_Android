@@ -4,9 +4,12 @@ public class Feedback {
     public String user;
     public String category;
     public String message;
-    public float rating;
+    public double rating;
 
-    public Feedback(String user, String category, String message, float rating) {
+    public Feedback() {
+    }
+
+    public Feedback(String user, String category, String message, double rating) {
         this.user = user;
         this.category = category;
         this.message = message;

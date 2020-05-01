@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,39 +16,52 @@ import com.example.drive360_android.R;
 import com.example.drive360_android.pages.TestQuestionsActivity;
 import com.example.drive360_android.models.Test;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import static com.example.drive360_android.Config.userTestsRef;
+import static com.example.drive360_android.Config.adminTestsRef;
 
 public class AddTestActivity extends AppCompatActivity {
-    private FirebaseDatabase firebaseDB;
-    private DatabaseReference rootRef;
-    private DatabaseReference userTestRef;
-
     private SharedPreferences sharedPreferences;
+    private boolean isAdminTest = false;
+    private DatabaseReference testsRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_test);
-
-        // Initialize database, root and test references.
-        firebaseDB = FirebaseDatabase.getInstance();
-        rootRef = firebaseDB.getReference();
-        userTestRef = rootRef.child("user_tests");
-
         sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
+
+        setSwitchVisibility();
+    }
+
+    private void setSwitchVisibility() {
+        TextView adminTestQuestion = (TextView) findViewById(R.id.isAdminTest);
+        Switch adminTestSwitch = (Switch) findViewById(R.id.adminTestSwitch);
+        boolean isAdmin = sharedPreferences.getBoolean("isAdmin", false);
+        if (!isAdmin) {
+            adminTestQuestion.setVisibility(View.GONE);
+            adminTestSwitch.setVisibility(View.GONE);
+        }
     }
 
     public void createTest(View view) {
         // Construct test from user inputs.
         Test test = constructTest();
 
+        if (isAdminTest) {
+            testsRef = adminTestsRef;
+        } else {
+            testsRef = userTestsRef.child(test.author);
+        }
+
         if (test != null) {
             // Generate id;
-            String id = userTestRef.push().getKey();
+            String id = testsRef.push().getKey();
             // Send data to tests branch on Firebase.
-            userTestRef.child(test.author).child(id).setValue(test);
+            testsRef.child(id).setValue(test);
 
             sharedPreferences.edit().putString("testId", id).apply();
+            sharedPreferences.edit().putBoolean("isAdminTest", isAdminTest).apply();
 
             // Transition the user to add question screen.
             goToTestQuestionScreen();
@@ -57,6 +72,10 @@ public class AddTestActivity extends AppCompatActivity {
     private Test constructTest() {
         // Get current user's username.
         String username = sharedPreferences.getString("username", "");
+
+        // Check whether this is admin test.
+        Switch adminTestSwitch = (Switch) findViewById(R.id.adminTestSwitch);
+        isAdminTest = adminTestSwitch.isChecked();
 
         // Get test name from text field.
         EditText nameInput = findViewById(R.id.testName);
@@ -69,7 +88,7 @@ public class AddTestActivity extends AppCompatActivity {
         // Check for valid input.
         if (name != null && !name.equals("") && description != null && !description.equals("")) {
             // Construct test object.
-            return new Test(username, false, name, description);
+            return new Test(username, isAdminTest, name, description);
         } else {
             // Notify invalid input using toast and return null.
             Toast.makeText(this, "Please make sure to fill out name and description!", Toast.LENGTH_LONG).show();

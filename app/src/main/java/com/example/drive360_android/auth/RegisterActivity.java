@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void submitUser(User user) {
         // Send data to users branch on Firebase.
-        userRef.child(user.getUsername()).setValue(user);
+        userRef.child(user.username).setValue(user);
     }
 
     // Log the user in.
@@ -51,17 +53,24 @@ public class RegisterActivity extends AppCompatActivity {
         EditText passwordInput = findViewById(R.id.passwordInput);
         String password = passwordInput.getText().toString();
 
+        // Get user role.
+        RadioGroup roleGroup = (RadioGroup) findViewById(R.id.userRole);
+        // Get selected role from radioGroup.
+        int selectedId = roleGroup.getCheckedRadioButtonId();
+        RadioButton roleButton = (RadioButton) findViewById(selectedId);
+        String role = roleButton.getText().toString();
+
         // Check for valid input.
-        if (username != null && !username.equals("") && password != null && !password.equals("")) {
+        if (username != null && !username.equals("") && password != null && !password.equals("") && role != null && !role.equals("")) {
             // Check if login credentials matches.
-            checkUniqueUsername(username, password);
+            checkUniqueUsername(username, password, role);
         } else {
             Toast.makeText(RegisterActivity.this, "Invalid input. Please try again!", Toast.LENGTH_LONG).show();
         }
     }
 
     // Check if username already exists.
-    public void checkUniqueUsername(String username, String password) {
+    public void checkUniqueUsername(String username, String password, String role) {
         userRef.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -69,9 +78,9 @@ public class RegisterActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     Toast.makeText(RegisterActivity.this, "Username already taken. Please try another one!", Toast.LENGTH_LONG).show();
                 } else {
-                    User user = new User(username, password);
+                    User user = new User(username, password, role);
                     submitUser(user);
-                    goToMainScreen(user.getUsername());
+                    goToMainScreen(user.username);
                 }
             }
 

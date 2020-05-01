@@ -15,83 +15,68 @@
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/admin_dashboard" />
 
-    <TextView
-        android:id="@+id/adminDashboardHeading2"
-        android:layout_width="222dp"
-        android:layout_height="78dp"
-        android:gravity="center"
-        android:text="@string/admin_dashboard_heading"
-        android:textColor="#CC0C0C"
-        android:textSize="30dp"
-        android:textStyle="bold|italic"
+    <Button
+        android:id="@+id/appStatsButton"
+        android:layout_width="196dp"
+        android:layout_height="85dp"
+        android:background="@drawable/rounded_white_background"
+        android:fontFamily="@font/arimo"
+        android:onClick="goToAppStatsScreen"
+        android:text="App Statistics"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.024" />
+        app:layout_constraintVertical_bias="0.1" />
 
-    <TextView
-        android:id="@+id/averageRating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="#CC0C0C"
-        android:textSize="17dp"
-        android:textStyle="bold"
+    <Button
+        android:id="@+id/userFeedbacksButton"
+        android:layout_width="196dp"
+        android:layout_height="85dp"
+        android:background="@drawable/rounded_white_background"
+        android:fontFamily="@font/arimo"
+        android:text="User Feedbacks"
+        android:onClick="goToUserFeedbacksScreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.261" />
+        app:layout_constraintVertical_bias="0.35" />
 
-    <TextView
-        android:id="@+id/questionCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="#CC0C0C"
-        android:textSize="17dp"
-        android:textStyle="bold"
+    <Button
+        android:id="@+id/manageUsersButton"
+        android:layout_width="196dp"
+        android:layout_height="85dp"
+        android:background="@drawable/rounded_white_background"
+        android:fontFamily="@font/arimo"
+        android:onClick="goToManageUsersScreen"
+        android:text="Manage Users"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.221" />
+        app:layout_constraintVertical_bias="0.6" />
 
-    <TextView
-        android:id="@+id/userCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="#CC0C0C"
-        android:textSize="17dp"
-        android:textStyle="bold"
+    <Button
+        android:id="@+id/adminTestsButton"
+        android:layout_width="196dp"
+        android:layout_height="85dp"
+        android:background="@drawable/rounded_white_background"
+        android:fontFamily="@font/arimo"
+        android:onClick="goToAdminTestsScreen"
+        android:text="Admin Tests"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.179" />
-
-    <ListView
-        android:id="@+id/feedbackList"
-        android:layout_width="404dp"
-        android:layout_height="502dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginLeft="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginRight="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintVertical_bias="0.85" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
