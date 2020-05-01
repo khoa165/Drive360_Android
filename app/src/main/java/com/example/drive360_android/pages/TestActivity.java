@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -22,37 +21,32 @@ import com.example.drive360_android.models.Test;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.drive360_android.Config.userTestsRef;
+import static com.example.drive360_android.Config.adminTestsRef;
 
 public class TestActivity extends AppCompatActivity {
-    private FirebaseDatabase firebaseDB;
-    private DatabaseReference rootRef;
-    private DatabaseReference adminTestRef;
-    private DatabaseReference userTestRef;
-    private ArrayList<String> tests;
-    private ArrayList<String> firebaseIds;
-    private ListView listView;
     private SharedPreferences sharedPreferences;
+    private DatabaseReference singleUserTestRef;
+    private List<String> tests;
+    private List<String> firebaseIds;
+    private List<Boolean> isAdminTests;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-
-        // Initialize database, root and admin test references.
-        firebaseDB = FirebaseDatabase.getInstance();
-        rootRef = firebaseDB.getReference();
-        adminTestRef = rootRef.child("admin_tests");
-
         sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
 
         // Get current user's username.
         String username = sharedPreferences.getString("username", "");
         // Initialize user test references.
-        userTestRef = rootRef.child("user_tests").child(username);
+        singleUserTestRef = userTestsRef.child(username);
 
         setupListView();
         setupTestItemListener();
@@ -61,19 +55,25 @@ public class TestActivity extends AppCompatActivity {
     private void setupListView() {
         tests = new ArrayList<String>();
         firebaseIds = new ArrayList<String>();
+        isAdminTests = new ArrayList<Boolean>();
 
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, tests);
         listView = findViewById(R.id.testList);
 
-        adminTestRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        adminTestsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for(DataSnapshot d1 : dataSnapshot.getChildren()) {
-                        // tests.add(d1.getKey());
+                        Test test = d1.getValue(Test.class);
+                        tests.add(test.name);
+                        firebaseIds.add(d1.getKey());
+                        isAdminTests.add(true);
                     }
 
-                    userTestRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    listView.setAdapter(adapter);
+
+                    singleUserTestRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
@@ -81,6 +81,7 @@ public class TestActivity extends AppCompatActivity {
                                     Test test = d2.getValue(Test.class);
                                     tests.add(test.name);
                                     firebaseIds.add(d2.getKey());
+                                    isAdminTests.add(false);
                                 }
 
                                 listView.setAdapter(adapter);
@@ -101,17 +102,16 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void setupTestItemListener() {
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Initialize intent to take user to TestQuestionsActivity.
-                Intent intent = new Intent(getApplicationContext(), TestQuestionsActivity.class);
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            // Initialize intent to take user to TestQuestionsActivity.
+            Intent intent = new Intent(getApplicationContext(), TestQuestionsActivity.class);
 
-                String testId = firebaseIds.get(position);
-                sharedPreferences.edit().putString("testId", testId).apply();
+            String testId = firebaseIds.get(position);
+            boolean isAdminTest = isAdminTests.get(position);
+            sharedPreferences.edit().putString("testId", testId).apply();
+            sharedPreferences.edit().putBoolean("isAdminTest", isAdminTest).apply();
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
     }
 

@@ -18,14 +18,13 @@ import com.example.drive360_android.models.Question;
 import com.example.drive360_android.pages.TestActivity;
 import com.example.drive360_android.pages.TestQuestionsActivity;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.drive360_android.Config.userTestsRef;
+
 public class AddQuestionActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private FirebaseDatabase firebaseDB;
-    private DatabaseReference rootRef;
     private DatabaseReference userQuestionRef;
     private Spinner spinner;
     private String testId;
@@ -38,14 +37,7 @@ public class AddQuestionActivity extends AppCompatActivity implements AdapterVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
-
-        // Initialize database, root and question references.
-        firebaseDB = FirebaseDatabase.getInstance();
-        rootRef = firebaseDB.getReference();
-
         sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
-
-        Intent intent = getIntent();
 
         String username = sharedPreferences.getString("username", "");
         testId = sharedPreferences.getString("testId", "");
@@ -54,7 +46,7 @@ public class AddQuestionActivity extends AppCompatActivity implements AdapterVie
             goToTestScreen();
         }
 
-        userQuestionRef = rootRef.child("user_tests").child(username).child(testId).child("questions");
+        userQuestionRef = userTestsRef.child(username).child(testId).child("questions");
 
         setupSpinner();
     }

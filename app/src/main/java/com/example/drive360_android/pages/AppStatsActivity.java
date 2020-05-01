@@ -67,9 +67,6 @@ public class AppStatsActivity extends AppCompatActivity {
         generateQuestionCount();
     }
 
-    private void calculateQuestionCount(){
-    }
-
 
     private void generateUserCount() {
         appStatsRef.child("num_users").addListenerForSingleValueEvent(new ValueEventListener() {
