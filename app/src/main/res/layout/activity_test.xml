@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pages.TestQuestionsActivity">
+    tools:context=".pages.TestActivity">
 
     <ImageView
         android:id="@+id/imageView3"
@@ -16,28 +16,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/startQuizButton"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:fontFamily="@font/arimo"
-        android:onClick="goToQuizScreen"
-        android:text="Attempt quiz"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05" />
-
     <ListView
         android:id="@+id/testList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/startQuizButton" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingAddButton"
@@ -45,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:onClick="goToAddQuestionScreen"
+        android:onClick="goToAddTestScreen"
         app:backgroundTint="@color/colorPrimary"
         android:src="@drawable/ic_add_white_24dp"
         app:layout_anchor="@id/testList"
