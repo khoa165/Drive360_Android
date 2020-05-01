@@ -52,7 +52,6 @@
         android:layout_height="wrap_content"
         android:text="You got 0 questions correct on the first attempt."
         android:textSize="14dp"
-        android:layout_marginLeft="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.45" />
@@ -63,7 +62,6 @@
         android:layout_height="wrap_content"
         android:text="You got 0 questions correct on the second attempt."
         android:textSize="14dp"
-        android:layout_marginLeft="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
@@ -74,7 +72,6 @@
         android:layout_height="wrap_content"
         android:text="You got 0 questions wrong unfortunately."
         android:textSize="14dp"
-        android:layout_marginLeft="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.55" />

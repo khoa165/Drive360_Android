@@ -39,8 +39,6 @@ public class FeedbackActivity extends AppCompatActivity implements AdapterView.O
         rootRef = firebaseDB.getReference();
         feedbackRef = rootRef.child("feedbacks");
 
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-
         setupSpinner();
     }
 
@@ -107,7 +105,7 @@ public class FeedbackActivity extends AppCompatActivity implements AdapterView.O
 
         // Get rating from stars rating bar.
         RatingBar ratingBar = findViewById(R.id.feedbackRating);
-        float rating = ratingBar.getRating();
+        double rating = ratingBar.getRating();
 
         // Check for valid input.
         if (category != null && !category.equals("") && message != null && !message.equals("")) {
