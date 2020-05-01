@@ -7,16 +7,14 @@ public class User {
     public String password;
     public int age;
     public boolean isAdmin;
+    public String role;
 
-    public User(String username, String password) {
+    public User(String username, String password, String role) {
         this.username = username;
         hashPassword(password);
+        this.role = role;
         this.age = -1;
         this.isAdmin = false;
-    }
-
-    public String getUsername() {
-        return this.username;
     }
 
     private void hashPassword(String password) {
