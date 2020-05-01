@@ -13,7 +13,7 @@
     <string name="question_name_hint">Please enter the question :)</string>
     <string name="test_description_hint">What is this test about?</string>
     <string name="add_tip_hint">Share helpful tips with your learning fellows :)</string>
+    <string name="admin_dashboard_heading">Drive360 Overview!</string>
     <string name="feedback_hint">Let us know :)</string>
-    <string name="admin_dashboard_heading">Drive360 overview!</string>
     <string name="submit">Submit</string>
 </resources>
