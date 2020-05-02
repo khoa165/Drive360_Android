@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.drive360_android.R;
-import com.example.drive360_android.forms.AddTipActivity;
 
 public class LearnActivity extends AppCompatActivity {
 
@@ -29,9 +28,9 @@ public class LearnActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // Transition to add tip screen.
-    public void goToAddTipScreen(View view) {
-        Intent intent = new Intent(this, AddTipActivity.class);
+    // Transition to view tip screen.
+    public void goToViewTipScreen(View view) {
+        Intent intent = new Intent(this, TipDisplayActivity.class);
         startActivity(intent);
     }
 }

@@ -17,4 +17,6 @@ public class Tip {
         this.votes = 1;
         this.voters.add(user);
     }
+
+    public Tip(){}
 }

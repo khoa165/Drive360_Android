@@ -22,6 +22,8 @@ import com.example.drive360_android.R;
 import com.example.drive360_android.auth.LoginActivity;
 import com.example.drive360_android.models.Tip;
 import com.example.drive360_android.pages.AdminDashboardActivity;
+import com.example.drive360_android.pages.TipDisplayActivity;
+import com.example.drive360_android.pages.ViewTipActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -135,7 +137,7 @@ public class AddTipActivity extends AppCompatActivity implements AdapterView.OnI
             // Send data to tips branch on Firebase.
             tipRef.child(id).setValue(tip);
             // Redirect the user to main screen.
-            goToMainScreen();
+            goToTipDisplayScreen();
         }
     }
 
@@ -174,6 +176,12 @@ public class AddTipActivity extends AppCompatActivity implements AdapterView.OnI
     // Redirect the user to login first.
     public void goToLoginScreen() {
         Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    // Redirect the user to view tip screen.
+    public void goToTipDisplayScreen() {
+        Intent intent = new Intent(this, TipDisplayActivity.class);
         startActivity(intent);
     }
 
