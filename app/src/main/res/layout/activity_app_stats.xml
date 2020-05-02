@@ -8,23 +8,23 @@
 
     <ImageView
         android:id="@+id/backgroundStatsImage"
-        android:layout_width="587dp"
-        android:layout_height="757dp"
-        android:layout_marginStart="75dp"
-        android:layout_marginLeft="75dp"
+        android:layout_width="534dp"
+        android:layout_height="765dp"
         android:scaleType="fitXY"
         android:background="#66ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.219"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/admin_dashboard" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingVertical="50dp"
-        android:paddingHorizontal="40dp"
+        android:paddingHorizontal="80dp"
         android:background="#66ffffff"
         android:orientation="vertical">
 
@@ -32,10 +32,10 @@
             android:id="@+id/appStatsHeading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginBottom="30dp"
-            android:text="App overview"
-            android:textColor="@color/darkRed"
+            android:gravity="center"
+            android:text="App Overview"
+            android:textColor="#0B0000"
             android:textSize="30dp"
             android:textStyle="bold|italic" />
 
@@ -44,8 +44,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/darkRed"
             android:text="Average app rating: 5"
+            android:textColor="#050000"
             android:textSize="17dp"
             android:textStyle="bold" />
 
@@ -53,8 +53,8 @@
             android:id="@+id/userCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/darkRed"
             android:text="Total number of users: 0"
+            android:textColor="#070000"
             android:textSize="17dp"
             android:textStyle="bold" />
 
@@ -62,8 +62,8 @@
             android:id="@+id/tipCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/darkRed"
             android:text="Total number of tips: 0"
+            android:textColor="#040000"
             android:textSize="17dp"
             android:textStyle="bold" />
 
@@ -71,8 +71,8 @@
             android:id="@+id/feedbackCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/darkRed"
             android:text="Total number of users: 0"
+            android:textColor="#0B0000"
             android:textSize="17dp"
             android:textStyle="bold" />
 
@@ -81,8 +81,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/darkRed"
             android:text="Total number of questions: 0"
+            android:textColor="#0B0000"
             android:textSize="17dp"
             android:textStyle="bold" />
     </LinearLayout>

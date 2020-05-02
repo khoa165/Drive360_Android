@@ -23,11 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.drive360_android.Config.userTestsRef;
+import static com.example.drive360_android.Config.adminTestsRef;
 
 public class QuizActivity extends AppCompatActivity {
     private List<Question> questions;
     private List<Integer> correctAnswers;
-    private DatabaseReference userQuestionRef;
     private String testId;
     private SharedPreferences sharedPreferences;
     private int currentQuestion = 0;
@@ -42,24 +42,35 @@ public class QuizActivity extends AppCompatActivity {
     private Button firstChoiceButton, secondChoiceButton, thirdChoiceButton, fourthChoiceButton;
     private Button nextQuestionButton;
 
+    private DatabaseReference questionsRef;
+    private boolean isAdminTest = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
-
         sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
 
+        setupQuizPath();
+        setupInterface();
+        getQuestions();
+    }
+
+    private void setupQuizPath() {
         String username = sharedPreferences.getString("username", "");
         testId = sharedPreferences.getString("testId", "");
+
+        isAdminTest = sharedPreferences.getBoolean("isAdminTest", false);
 
         if (testId.equals("")) {
             goToTestScreen();
         }
 
-        userQuestionRef = userTestsRef.child(username).child(testId).child("questions");
-
-        setupInterface();
-        getQuestions();
+        if (isAdminTest) {
+            questionsRef = adminTestsRef.child(testId).child("questions");
+        } else {
+            questionsRef = userTestsRef.child(username).child(testId).child("questions");
+        }
     }
 
     private void setupInterface() {
@@ -82,7 +93,7 @@ public class QuizActivity extends AppCompatActivity {
     private void getQuestions() {
         questions = new ArrayList<Question>();
 
-        userQuestionRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        questionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -158,7 +169,7 @@ public class QuizActivity extends AppCompatActivity {
                 incorrectButton.setBackgroundColor(getResources().getColor(R.color.red));
                 if (firstAttemptUsed) {
                     Toast.makeText(this, "Keep practicing. You will conquer this next time!", Toast.LENGTH_LONG).show();
-                    Button correctButton = answerButtons.get(choice);
+                    Button correctButton = answerButtons.get(correctAnswers.get(currentQuestion));
                     correctButton.setBackgroundColor(getResources().getColor(R.color.green));
                     checkNextQuestionAvailable();
                 } else {

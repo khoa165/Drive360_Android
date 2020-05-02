@@ -8,6 +8,8 @@ public class User {
     public int age;
     public boolean isAdmin;
     public String role;
+    public User() {
+    }
 
     public User(String username, String password, String role) {
         this.username = username;

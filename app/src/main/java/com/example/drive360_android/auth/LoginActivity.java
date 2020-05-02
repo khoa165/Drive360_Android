@@ -58,8 +58,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // Retrieve expected password, salt, and isAdmin from Firebase.
+                    // Retrieve expected password, role, and isAdmin from Firebase.
                     boolean isAdmin = (Boolean) dataSnapshot.child("isAdmin").getValue();
+                    String role = (String) dataSnapshot.child("role").getValue();
                     String expected = (String) dataSnapshot.child("password").getValue();
                     boolean isAuthenticated = PasswordHash.checkPasswordsMatch(password, expected, null);
 
@@ -67,12 +68,18 @@ public class LoginActivity extends AppCompatActivity {
                     if (isAuthenticated) {
                         SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
 
+                        if (role != null && !role.equals("")) {
+                            boolean isInstructor = role.equals("Instructor");
+                            sharedPreferences.edit().putBoolean("isInstructor", isInstructor).apply();
+                        }
+
                         // Set isAuthenticated to true and pass in username for main screen.
                         sharedPreferences.edit().putBoolean("isAuthenticated", true).apply();
                         sharedPreferences.edit().putString("username", username).apply();
                         sharedPreferences.edit().putBoolean("isAdmin", isAdmin).apply();
 
                         goToMainScreen(username);
+                        Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(LoginActivity.this, "Invalid credentials. Please try again!", Toast.LENGTH_LONG).show();
                     }

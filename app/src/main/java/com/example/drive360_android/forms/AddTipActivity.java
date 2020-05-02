@@ -24,8 +24,13 @@ import com.example.drive360_android.models.Tip;
 import com.example.drive360_android.pages.AdminDashboardActivity;
 import com.example.drive360_android.pages.TipDisplayActivity;
 import com.example.drive360_android.pages.ViewTipActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import static com.example.drive360_android.Config.appStatsRef;
 
 public class AddTipActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private FirebaseDatabase firebaseDB;
@@ -80,10 +85,13 @@ public class AddTipActivity extends AppCompatActivity implements AdapterView.OnI
         if (item.getItemId() == R.id.logout) {
             SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
 
-            // Set isAuthenticated to false and remove username form sharedPreferences.
             sharedPreferences.edit().putBoolean("isAuthenticated", false).apply();
             sharedPreferences.edit().putBoolean("isAdmin", false).apply();
+            sharedPreferences.edit().putBoolean("isInstructor", false).apply();
+            sharedPreferences.edit().putBoolean("isAdminTest", false).apply();
             sharedPreferences.edit().remove("username").apply();
+            sharedPreferences.edit().remove("testId").apply();
+            sharedPreferences.edit().remove("questionId").apply();
 
             // Redirect the user to login screen.
             goToLoginScreen();
@@ -136,9 +144,26 @@ public class AddTipActivity extends AppCompatActivity implements AdapterView.OnI
             String id = tipRef.push().getKey();
             // Send data to tips branch on Firebase.
             tipRef.child(id).setValue(tip);
+            incrementTipCount();
             // Redirect the user to main screen.
             goToTipDisplayScreen();
         }
+    }
+
+    private void incrementTipCount() {
+        appStatsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    long num_tips = (Long) dataSnapshot.child("num_tips").getValue();
+                    appStatsRef.child("num_tips").setValue(num_tips + 1);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     // Validate user input and return tip object if valid, otherwise null.
