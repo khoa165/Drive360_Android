@@ -20,16 +20,18 @@
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="170dp"
-        android:layout_height="35dp"
+        android:layout_width="228dp"
+        android:layout_height="49dp"
         android:layout_marginStart="486dp"
         android:layout_marginLeft="486dp"
         android:layout_marginTop="150dp"
         android:layout_marginBottom="64dp"
+        android:background="@color/white"
         android:fadingEdge="vertical"
         android:gravity="center|center_horizontal"
         app:layout_constraintBottom_toTopOf="@id/button"
         app:layout_constraintEnd_toStartOf="@+id/imageView6"
+        app:layout_constraintHorizontal_bias="0.549"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text" />
 
@@ -49,25 +51,28 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/spinner"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.562"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="209dp"
+        android:layout_height="44dp"
         android:layout_marginStart="161dp"
+        android:layout_marginLeft="161dp"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="162dp"
+        android:layout_marginRight="162dp"
         android:layout_marginBottom="178dp"
+        android:alpha="0.9"
+        android:background="@color/azure"
         android:onClick="onClick"
         android:text="Go"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner"
-        app:layout_constraintVertical_bias="1.0"
-        android:layout_marginLeft="161dp"
-        android:layout_marginRight="162dp" />
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.drive360_android.auth.LoginActivity;
 import com.example.drive360_android.forms.FeedbackActivity;
@@ -99,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Redirect the user to login screen.
             goToLoginScreen();
+            Toast.makeText(MainActivity.this, "Sign out successful!", Toast.LENGTH_LONG).show();
             return true;
         } else if (item.getItemId() == R.id.admin_dashboard) {
             goToAdminDashboardScreen();

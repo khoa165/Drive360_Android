@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -152,6 +153,7 @@ public class TestActivity extends AppCompatActivity {
 
             // Redirect the user to login screen.
             goToLoginScreen();
+            Toast.makeText(TestActivity.this, "Sign out successful!", Toast.LENGTH_LONG).show();
             return true;
         } else if (item.getItemId() == R.id.admin_dashboard) {
             goToAdminDashboardScreen();

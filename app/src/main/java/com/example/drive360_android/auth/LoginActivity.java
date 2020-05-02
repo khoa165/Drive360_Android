@@ -79,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                         sharedPreferences.edit().putBoolean("isAdmin", isAdmin).apply();
 
                         goToMainScreen(username);
+                        Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(LoginActivity.this, "Invalid credentials. Please try again!", Toast.LENGTH_LONG).show();
                     }

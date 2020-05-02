@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import com.example.drive360_android.MainActivity;
 import com.example.drive360_android.R;
 import com.example.drive360_android.auth.LoginActivity;
 import com.example.drive360_android.forms.AddQuestionActivity;
@@ -151,6 +152,7 @@ public class TestQuestionsActivity extends AppCompatActivity {
 
             // Redirect the user to login screen.
             goToLoginScreen();
+            Toast.makeText(TestQuestionsActivity.this, "Sign out successful!", Toast.LENGTH_LONG).show();
             return true;
         } else if (item.getItemId() == R.id.admin_dashboard) {
             goToAdminDashboardScreen();

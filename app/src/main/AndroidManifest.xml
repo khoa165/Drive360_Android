@@ -9,12 +9,13 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon,android:theme">
+
         <activity
             android:name=".forms.AddClassroomActivity"
             android:parentActivityName=".pages.ClassroomDashboardActivity"
@@ -32,6 +33,10 @@
             tools:ignore="LockedOrientationActivity" />
         <activity android:name=".pages.FeedbackDisplayActivity"
             android:parentActivityName=".pages.AdminDashboardActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".pages.ManualWebviewActivity"
+            android:parentActivityName=".pages.ManualActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
