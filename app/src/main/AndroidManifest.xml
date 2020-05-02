@@ -111,6 +111,16 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
+            android:name=".pages.TipDisplayActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".pages.ViewTipActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
             android:name=".auth.RegisterActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
