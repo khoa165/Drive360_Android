@@ -18,6 +18,7 @@ import com.example.drive360_android.auth.LoginActivity;
 import com.example.drive360_android.forms.AddTipActivity;
 import com.example.drive360_android.forms.FeedbackActivity;
 import com.example.drive360_android.pages.AdminDashboardActivity;
+import com.example.drive360_android.pages.ClassroomActivity;
 import com.example.drive360_android.pages.LearnActivity;
 import com.example.drive360_android.pages.TestActivity;
 import com.example.drive360_android.pages.ManualActivity;
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Transition to classroom screen.
     public void goToClassroomScreen(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, ClassroomActivity.class);
         startActivity(intent);
     }
 
