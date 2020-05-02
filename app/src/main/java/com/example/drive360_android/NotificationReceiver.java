@@ -40,7 +40,7 @@ public class NotificationReceiver extends BroadcastReceiver {
                 .setContentText("This is a friendly reminder to keep up the good work!")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setColor(Color.BLUE)
+                .setColor(Color.RED)
                 .setContentIntent(pendingIntent) // Sets action when notification clicked
                 .setAutoCancel(true) // Dismisses message after clicked
                 .build();

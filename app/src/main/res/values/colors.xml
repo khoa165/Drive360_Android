@@ -6,4 +6,5 @@
     <color name="red">#FF0000</color>
     <color name="darkRed">#CC0C0C</color>
     <color name="green">#00FF00</color>
+    <color name="azure">#0080F0</color>
 </resources>

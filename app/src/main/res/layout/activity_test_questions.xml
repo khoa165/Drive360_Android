@@ -6,23 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".pages.TestQuestionsActivity">
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="519dp"
-        android:layout_height="750dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/road"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/startQuizButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:alpha="0.9"
+        android:background="@color/azure"
         android:fontFamily="@font/arimo"
         android:onClick="goToQuizScreen"
         android:text="Attempt quiz"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
