@@ -13,4 +13,5 @@ public class Config {
     public static DatabaseReference tipsRef = rootRef.child("tips");
     public static DatabaseReference usersRef = rootRef.child("users");
     public static DatabaseReference invitationsRef = rootRef.child("invitations");
+    public static DatabaseReference discussionsRef = rootRef.child("discussions");
 }

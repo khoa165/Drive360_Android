@@ -34,33 +34,6 @@ public class AppStatsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_stats);
 
-        ListView lv = (ListView) findViewById(R.id.feedbackList);
-        // Need to get feedback from fire base !!!!! (Harry)
-        // Create a List of feedback
-        List<String> feedbackList = new ArrayList<String>();
-
-        // Procedure to change color of list view items
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_list_item_1, feedbackList){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent){
-                // Get the Item from ListView
-                View view = super.getView(position, convertView, parent);
-
-                // Initialize a TextView for ListView each Item
-                TextView tv = (TextView) view.findViewById(android.R.id.text1);
-
-                // Set the text color of TextView (ListView Item)
-                tv.setTextColor(Color.parseColor("#CC0C0C"));
-
-                // Generate ListView Item using TextView
-                return view;
-            }
-        };
-
-        // DataBind ListView with items from ArrayAdapter
-        lv.setAdapter(arrayAdapter);
-
         generateUserCount();
         generateTipCount();
         generateFeedbackCount();
@@ -121,7 +94,6 @@ public class AppStatsActivity extends AppCompatActivity {
                     questionCount = (Long) dataSnapshot.getValue();
                     TextView tv = findViewById(R.id.questionCount);
                     tv.setText("Total number of questions: " + questionCount);
-                    generateAppRating();
                 }
             }
 
@@ -139,9 +111,8 @@ public class AppStatsActivity extends AppCompatActivity {
                         appRating += feedback.rating;
                     }
                     if (feedbackCount > 0) {
-                        appRating /= feedbackCount;
                         TextView tv = findViewById(R.id.averageRating);
-                        tv.setText("Average app rating: " + appRating);
+                        tv.setText("Average app rating: " + appRating / feedbackCount);
                     }
 
                 }

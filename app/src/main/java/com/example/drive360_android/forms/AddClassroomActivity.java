@@ -80,7 +80,7 @@ public class AddClassroomActivity extends AppCompatActivity {
 
         // Get classroom website from text field.
         EditText websiteInput = findViewById(R.id.classroomWebsite);
-        String website = descriptionInput.getText().toString().trim();
+        String website = websiteInput.getText().toString().trim();
 
         // Check for valid input.
         if (name != null && !name.equals("") && description != null && !description.equals("") && website != null) {

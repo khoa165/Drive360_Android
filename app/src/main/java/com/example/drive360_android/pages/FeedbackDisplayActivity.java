@@ -34,7 +34,12 @@ public class FeedbackDisplayActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     for(DataSnapshot d : dataSnapshot.getChildren()) {
                         Feedback f = d.getValue(Feedback.class);
-                        feedback.add("Category: " + f.category + "\nFeedback: " + f.message + " " + f.rating + "\nSubmitted by: " + f.user);
+                        String content = "\n>>> " + f.category
+                                + "\n--------------------------------------------------------------"
+                                + "\nFeedback: " + f.message
+                                + "\n--------------------------------------------------------------"
+                                + "\nRated " + f.rating + " stars by " + f.user + "\n";
+                        feedback.add(content);
                     }
                     feedbackList.setAdapter(adapter);
                 }
