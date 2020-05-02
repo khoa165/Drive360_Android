@@ -1,10 +1,11 @@
 package com.example.drive360_android.models;
 
 import java.util.List;
+import java.util.Map;
 
 public class Classroom {
     public String instructor;
-    public List<String> learners;
+    Map<String, Boolean> learners;
     public String name;
     public String description;
     public String website;
@@ -12,9 +13,8 @@ public class Classroom {
     public Classroom() {
     }
 
-    public Classroom(String instructor, List<String> learners, String name, String description, String website) {
+    public Classroom(String instructor, String name, String description, String website) {
         this.instructor = instructor;
-        this.learners = learners;
         this.name = name;
         this.description = description;
         this.website = website;

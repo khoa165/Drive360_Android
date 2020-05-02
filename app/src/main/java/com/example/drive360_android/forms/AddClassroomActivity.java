@@ -64,7 +64,7 @@ public class AddClassroomActivity extends AppCompatActivity {
         // Check for valid input.
         if (name != null && !name.equals("") && description != null && !description.equals("") && website != null) {
             // Construct classroom object.
-            return new Classroom(username, new ArrayList<String>(), name, description, website);
+            return new Classroom(username, name, description, website);
         } else {
             // Notify invalid input using toast and return null.
             Toast.makeText(this, "Please make sure to fill out name and description!", Toast.LENGTH_LONG).show();
