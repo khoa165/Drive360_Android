@@ -61,27 +61,25 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_dark_background"
         android:ems="10"
-        android:textColorHint="#fff"
-        android:textColor="#fff"
         android:fontFamily="@font/arimo"
-        android:inputType="textPersonName"
         android:hint="@string/test_name_hint"
+        android:inputType="textPersonName"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/adminTestSwitch"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintVertical_bias="0.043" />
 
     <EditText
         android:id="@+id/testDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:background="@drawable/rounded_dark_background"
         android:ems="10"
-        android:layout_marginTop="15dp"
-        android:textColorHint="#fff"
-        android:textColor="#fff"
         android:gravity="start|top"
         android:hint="@string/test_description_hint"
         android:inputType="textMultiLine"
@@ -89,27 +87,30 @@
         android:minLines="8"
         android:scrollbars="vertical"
         android:scrollHorizontally="false"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/testName"
-        app:layout_constraintVertical_bias="0.01" />
+        app:layout_constraintVertical_bias="0.15" />
 
     <Button
         android:id="@+id/submitButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_dark_background"
-        android:padding="15dp"
-        android:textColor="#fff"
         android:fontFamily="@font/arimo"
         android:onClick="createTest"
+        android:padding="15dp"
         android:text="Submit"
+        android:textColor="#fff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/testDescription"
-        app:layout_constraintVertical_bias="0.4" />
+        app:layout_constraintVertical_bias="0.349" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

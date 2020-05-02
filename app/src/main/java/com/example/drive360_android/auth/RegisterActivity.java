@@ -81,6 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
                     User user = new User(username, password, role);
                     submitUser(user);
                     goToMainScreen(user.username);
+                    Toast.makeText(RegisterActivity.this, "Sign up successful!", Toast.LENGTH_LONG).show();
                 }
             }
 
