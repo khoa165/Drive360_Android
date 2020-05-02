@@ -41,13 +41,6 @@ public class AddQuestionActivity extends AppCompatActivity implements AdapterVie
         setContentView(R.layout.activity_add_question);
         sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
 
-        String username = sharedPreferences.getString("username", "");
-        testId = sharedPreferences.getString("testId", "");
-
-        if (testId.equals("")) {
-            goToTestScreen();
-        }
-
         setupTestPath();
         setupSpinner();
     }
