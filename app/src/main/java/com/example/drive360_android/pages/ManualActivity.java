@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -325,6 +326,7 @@ public class ManualActivity extends AppCompatActivity implements AdapterView.OnI
 
             // Redirect the user to login screen.
             goToLoginScreen();
+            Toast.makeText(ManualActivity.this, "Sign out successful!", Toast.LENGTH_LONG).show();
             return true;
 
         }
