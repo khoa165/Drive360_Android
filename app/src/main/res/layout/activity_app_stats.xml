@@ -32,9 +32,9 @@
             android:id="@+id/appStatsHeading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginBottom="30dp"
-            android:text="App overview"
+            android:gravity="center"
+            android:text="App Overview"
             android:textColor="@color/darkRed"
             android:textSize="30dp"
             android:textStyle="bold|italic" />

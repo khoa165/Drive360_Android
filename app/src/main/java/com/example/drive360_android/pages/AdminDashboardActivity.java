@@ -21,7 +21,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
     }
 
     public void goToUserFeedbacksScreen(View view) {
-        Intent intent = new Intent(this, AppStatsActivity.class);
+        Intent intent = new Intent(this, FeedbackDisplayActivity.class);
         startActivity(intent);
     }
 

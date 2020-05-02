@@ -30,6 +30,10 @@
             android:parentActivityName=".pages.ClassroomDashboardActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".pages.FeedbackDisplayActivity"
+            android:parentActivityName=".pages.AdminDashboardActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".pages.AdminDashboardActivity"
             android:parentActivityName=".MainActivity"
