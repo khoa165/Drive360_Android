@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.drive360_android.R;
+import com.example.drive360_android.models.Classroom;
 import com.example.drive360_android.models.Invitation;
 import com.example.drive360_android.models.User;
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +40,7 @@ public class MembersFragment extends ListFragment implements AdapterView.OnItemC
     private View view;
     private SharedPreferences sharedPreferences;
     private DatabaseReference singleUserInvitationRef;
+    private List<String> classroomLearners;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -55,13 +57,30 @@ public class MembersFragment extends ListFragment implements AdapterView.OnItemC
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        List<String> random = new ArrayList<String>();
-        random.add("dog");
-        random.add("cat");
-        random.add("bird");
+        classroomLearners = new ArrayList<String>();
+        // Get current user's username.
+        String username = sharedPreferences.getString("username", "");
+        String classroomId = sharedPreferences.getString("classroomId", "");
+        DatabaseReference classroomLearnersRef = classroomsRef.child(username).child(classroomId).child("learners");
 
-        ArrayAdapter adapter = new ArrayAdapter(view.getContext(), android.R.layout.simple_list_item_1, random);
-        setListAdapter(adapter);
+        classroomLearnersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for(DataSnapshot d : dataSnapshot.getChildren()) {
+                        classroomLearners.add(d.getKey());
+                    }
+
+                    ArrayAdapter adapter = new ArrayAdapter(view.getContext(), android.R.layout.simple_list_item_1, classroomLearners);
+                    setListAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
         getListView().setOnItemClickListener(this);
     }
 

@@ -28,7 +28,6 @@ import static com.example.drive360_android.Config.adminTestsRef;
 public class QuizActivity extends AppCompatActivity {
     private List<Question> questions;
     private List<Integer> correctAnswers;
-    private DatabaseReference userQuestionRef;
     private String testId;
     private SharedPreferences sharedPreferences;
     private int currentQuestion = 0;
@@ -94,7 +93,7 @@ public class QuizActivity extends AppCompatActivity {
     private void getQuestions() {
         questions = new ArrayList<Question>();
 
-        userQuestionRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        questionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
