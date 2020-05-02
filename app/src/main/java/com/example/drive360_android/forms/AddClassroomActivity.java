@@ -1,5 +1,6 @@
 package com.example.drive360_android.forms;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -13,9 +14,13 @@ import android.widget.Toast;
 import com.example.drive360_android.R;
 import com.example.drive360_android.models.Classroom;
 import com.example.drive360_android.pages.ClassroomActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static com.example.drive360_android.Config.appStatsRef;
 import static com.example.drive360_android.Config.classroomsRef;
 
 public class AddClassroomActivity extends AppCompatActivity {
@@ -38,10 +43,26 @@ public class AddClassroomActivity extends AppCompatActivity {
             // Send data to classrooms branch on Firebase.
             classroomsRef.child(classroom.instructor).child(id).setValue(classroom);
             sharedPreferences.edit().putString("classroomId", id).apply();
-
+            incrementClassroomCount();
             // Transition to the classroom screen.
             goToClassroomScreen();
         }
+    }
+
+    private void incrementClassroomCount() {
+        appStatsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    long num_classrooms = (Long) dataSnapshot.child("num_classrooms").getValue();
+                    appStatsRef.child("num_classrooms").setValue(num_classrooms + 1);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     // Validate user input and return classroom object if valid, otherwise null.

@@ -23,8 +23,13 @@ import com.example.drive360_android.R;
 import com.example.drive360_android.auth.LoginActivity;
 import com.example.drive360_android.models.Feedback;
 import com.example.drive360_android.pages.AdminDashboardActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import static com.example.drive360_android.Config.appStatsRef;
 
 public class FeedbackActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private FirebaseDatabase firebaseDB;
@@ -138,9 +143,26 @@ public class FeedbackActivity extends AppCompatActivity implements AdapterView.O
             String id = feedbackRef.push().getKey();
             // Send data to feedbacks branch on Firebase.
             feedbackRef.child(id).setValue(feedback);
+            incrementFeedbackCount();
             // Redirect the user to main screen.
             goToMainScreen();
         }
+    }
+
+    private void incrementFeedbackCount() {
+        appStatsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    long num_feedbacks = (Long) dataSnapshot.child("num_feedbacks").getValue();
+                    appStatsRef.child("num_feedbacks").setValue(num_feedbacks + 1);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     // Validate user input and return feedback object if valid, otherwise null.

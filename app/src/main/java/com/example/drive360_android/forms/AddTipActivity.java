@@ -22,8 +22,13 @@ import com.example.drive360_android.R;
 import com.example.drive360_android.auth.LoginActivity;
 import com.example.drive360_android.models.Tip;
 import com.example.drive360_android.pages.AdminDashboardActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import static com.example.drive360_android.Config.appStatsRef;
 
 public class AddTipActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private FirebaseDatabase firebaseDB;
@@ -137,9 +142,26 @@ public class AddTipActivity extends AppCompatActivity implements AdapterView.OnI
             String id = tipRef.push().getKey();
             // Send data to tips branch on Firebase.
             tipRef.child(id).setValue(tip);
+            incrementTipCount();
             // Redirect the user to main screen.
             goToMainScreen();
         }
+    }
+
+    private void incrementTipCount() {
+        appStatsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    long num_tips = (Long) dataSnapshot.child("num_tips").getValue();
+                    appStatsRef.child("num_tips").setValue(num_tips + 1);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     // Validate user input and return tip object if valid, otherwise null.
