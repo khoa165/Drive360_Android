@@ -20,6 +20,7 @@ public class ClassroomActivity extends AppCompatActivity {
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navListener);
+        bottomNavigation.setSelectedItemId(R.id.nav_discussion);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -30,7 +31,7 @@ public class ClassroomActivity extends AppCompatActivity {
 
                     switch (item.getItemId()) {
                         case R.id.nav_discussion:
-                            selectedFragment = new MembersFragment();
+                            selectedFragment = new DiscussionFragment();
                             break;
                         case R.id.nav_files:
                             selectedFragment = new MembersFragment();

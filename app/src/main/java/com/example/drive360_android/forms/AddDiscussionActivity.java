@@ -1,5 +1,8 @@
 package com.example.drive360_android.forms;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,46 +14,42 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.drive360_android.MainActivity;
 import com.example.drive360_android.R;
 import com.example.drive360_android.auth.LoginActivity;
-import com.example.drive360_android.models.Feedback;
+import com.example.drive360_android.models.Discussion;
 import com.example.drive360_android.pages.AdminDashboardActivity;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.example.drive360_android.pages.ClassroomActivity;
+import com.example.drive360_android.pages.ClassroomDashboardActivity;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import static com.example.drive360_android.Config.appStatsRef;
+import static com.example.drive360_android.Config.discussionsRef;
 
-public class FeedbackActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private FirebaseDatabase firebaseDB;
-    private DatabaseReference rootRef;
-    private DatabaseReference feedbackRef;
+public class AddDiscussionActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private Spinner spinner;
-    private boolean validFeedbackCategory;
-    private static final String[] feedbackCategories
-            = {"Please choose feedback category", "Report error", "General feedback", "Suggestions", "Others"};
+    private boolean validDiscussionCategory;
+    private static final String[] discussionCategories
+            = {"Please choose discussion category", "Logistics question", "Class content", "Driving-related question", "Others"};
+    private DatabaseReference classroomDiscussionRef;
+    private SharedPreferences sharedPreferences;
+    private String classroomId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feedback);
-
-        // Initialize database, root and feedback references.
-        firebaseDB = FirebaseDatabase.getInstance();
-        rootRef = firebaseDB.getReference();
-        feedbackRef = rootRef.child("feedbacks");
+        setContentView(R.layout.activity_add_discussion);
+        sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
 
         setupSpinner();
+
+        classroomId = sharedPreferences.getString("classroomId", "");
+        if (classroomId.equals("")) {
+            goToClassroomDashboardActivity();
+        }
+
+        classroomDiscussionRef = discussionsRef.child(classroomId);
     }
 
     @Override
@@ -103,9 +102,9 @@ public class FeedbackActivity extends AppCompatActivity implements AdapterView.O
     }
 
     public void setupSpinner () {
-        spinner = findViewById(R.id.feedbackCategory);
+        spinner = findViewById(R.id.discussionCategory);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, feedbackCategories);
+                android.R.layout.simple_spinner_item, discussionCategories);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -116,13 +115,13 @@ public class FeedbackActivity extends AppCompatActivity implements AdapterView.O
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
         switch (position) {
             case 0:
-                validFeedbackCategory = false;
+                validDiscussionCategory = false;
                 break;
             case 1:
             case 2:
             case 3:
             case 4:
-                validFeedbackCategory = true;
+                validDiscussionCategory = true;
                 break;
             default:
                 break;
@@ -133,71 +132,52 @@ public class FeedbackActivity extends AppCompatActivity implements AdapterView.O
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
-    // Handle feedback submission.
-    public void submitFeedback(View v) {
-        // Construct feedback from user inputs.
-        Feedback feedback = constructFeedback();
+    // Handle discussion submission.
+    public void submitDiscussion(View v) {
+        // Construct discussion from user inputs.
+        Discussion discussion = constructDiscussion();
 
-        if (feedback != null) {
+        if (discussion != null) {
             // Generate id;
-            String id = feedbackRef.push().getKey();
-            // Send data to feedbacks branch on Firebase.
-            feedbackRef.child(id).setValue(feedback);
-            incrementFeedbackCount();
-            // Redirect the user to main screen.
-            goToMainScreen();
+            String id = classroomDiscussionRef.push().getKey();
+            // Send data to discussions branch on Firebase.
+            classroomDiscussionRef.child(id).setValue(discussion);
+            // Redirect the user to classroom screen.
+            goToClassroomActivity();
         }
     }
 
-    private void incrementFeedbackCount() {
-        appStatsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    long num_feedbacks = (Long) dataSnapshot.child("num_feedbacks").getValue();
-                    appStatsRef.child("num_feedbacks").setValue(num_feedbacks + 1);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-    }
-
     // Validate user input and return feedback object if valid, otherwise null.
-    private Feedback constructFeedback() {
-        SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
-
+    private Discussion constructDiscussion() {
         // Get current user's username.
         String username = sharedPreferences.getString("username", "");
 
-        // Get feedback category from spinner/dropdown.
-        Spinner spinner = findViewById(R.id.feedbackCategory);
+        // Get discussion category from spinner/dropdown.
+        Spinner spinner = findViewById(R.id.discussionCategory);
         String category = spinner.getSelectedItem().toString().trim();
 
-        // Get message from text field.
-        EditText messageInput = findViewById(R.id.feedbackMessage);
-        String message = messageInput.getText().toString().trim();
-
-        // Get rating from stars rating bar.
-        RatingBar ratingBar = findViewById(R.id.feedbackRating);
-        double rating = ratingBar.getRating();
+        // Get content from text field.
+        EditText contentInput = findViewById(R.id.discussionContent);
+        String content = contentInput.getText().toString().trim();
 
         // Check for valid input.
-        if (category != null && !category.equals("") && message != null && !message.equals("") && validFeedbackCategory) {
-            // Construct feedback object.
-            return new Feedback(username, category, message, rating);
+        if (category != null && !category.equals("") && content != null && !content.equals("") && validDiscussionCategory) {
+            // Construct discussion object.
+            return new Discussion(username, classroomId, category, content);
         } else {
             // Notify invalid input using toast and return null.
-            Toast.makeText(this, "Please make sure to select category, fill out the feedback and give us a rating!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please make sure to select category and fill out the content!", Toast.LENGTH_LONG).show();
             return null;
         }
     }
 
-    // Redirect the user to main screen.
-    public void goToMainScreen() {
-        Intent intent = new Intent(this, MainActivity.class);
+    private void goToClassroomActivity() {
+        Intent intent = new Intent(this, ClassroomActivity.class);
+        startActivity(intent);
+    }
+
+    private void goToClassroomDashboardActivity() {
+        Intent intent = new Intent(this, ClassroomDashboardActivity.class);
         startActivity(intent);
     }
 

@@ -56,7 +56,10 @@ public class MembersFragment extends ListFragment implements AdapterView.OnItemC
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setupListView();
+    }
 
+    private void setupListView() {
         classroomLearners = new ArrayList<String>();
         // Get current user's username.
         String username = sharedPreferences.getString("username", "");
@@ -86,7 +89,7 @@ public class MembersFragment extends ListFragment implements AdapterView.OnItemC
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
-        Toast.makeText(getActivity(), "Item: " + position, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getActivity(), "Item: " + position, Toast.LENGTH_SHORT).show();
     }
 
     public void setupInviteButtonListener() {

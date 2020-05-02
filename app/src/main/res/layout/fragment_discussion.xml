@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/discussionLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="5dp"
@@ -20,14 +22,14 @@
             android:ems="10"
             android:layout_weight="9"
             android:inputType="textPersonName"
-            android:hint="Invite learners by username" />
+            android:hint="Search by keywords" />
 
         <Button
             android:id="@+id/inviteUserButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Invite"  />
+            android:text="Search"  />
 
     </LinearLayout>
 
@@ -36,12 +38,36 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="5dp"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/discussionHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Discuss with your learning fellows..."
+            android:textSize="18dp"
+            android:textStyle="bold" />
 
         <ListView
             android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
     </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingAddButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            app:backgroundTint="@color/colorPrimary"
+            android:src="@drawable/ic_add_white_24dp"
+            app:layout_anchor="@id/discussionLayout"
+            app:layout_anchorGravity="bottom|right|end" />
+    </FrameLayout>
 </LinearLayout>
