@@ -19,6 +19,7 @@
             android:parentActivityName=".pages.ManualActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".pages.FeedbackDisplayActivity"></activity>
         <activity
             android:name=".pages.AdminDashboardActivity"
             android:parentActivityName=".MainActivity"
