@@ -321,9 +321,13 @@ public class ManualActivity extends AppCompatActivity implements AdapterView.OnI
         if (item.getItemId() == R.id.logout) {
             SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360", Context.MODE_PRIVATE);
 
-            // Set isAuthenticated to false and remove username form sharedPreferences.
             sharedPreferences.edit().putBoolean("isAuthenticated", false).apply();
+            sharedPreferences.edit().putBoolean("isAdmin", false).apply();
+            sharedPreferences.edit().putBoolean("isInstructor", false).apply();
+            sharedPreferences.edit().putBoolean("isAdminTest", false).apply();
             sharedPreferences.edit().remove("username").apply();
+            sharedPreferences.edit().remove("testId").apply();
+            sharedPreferences.edit().remove("questionId").apply();
 
             // Redirect the user to login screen.
             goToLoginScreen();

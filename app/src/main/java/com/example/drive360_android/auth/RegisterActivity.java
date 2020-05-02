@@ -24,6 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 
+import static com.example.drive360_android.Config.appStatsRef;
+
 public class RegisterActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDB;
     private DatabaseReference rootRef;
@@ -43,6 +45,23 @@ public class RegisterActivity extends AppCompatActivity {
     private void submitUser(User user) {
         // Send data to users branch on Firebase.
         userRef.child(user.username).setValue(user);
+        incrementUserCount();
+    }
+
+    private void incrementUserCount() {
+        appStatsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    long num_users = (Long) dataSnapshot.child("num_users").getValue();
+                    appStatsRef.child("num_users").setValue(num_users + 1);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     // Log the user in.

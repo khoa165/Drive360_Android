@@ -1,5 +1,6 @@
 package com.example.drive360_android.forms;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -17,11 +18,15 @@ import com.example.drive360_android.R;
 import com.example.drive360_android.models.Question;
 import com.example.drive360_android.pages.TestActivity;
 import com.example.drive360_android.pages.TestQuestionsActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.drive360_android.Config.appStatsRef;
 import static com.example.drive360_android.Config.userTestsRef;
 import static com.example.drive360_android.Config.adminTestsRef;
 
@@ -40,13 +45,6 @@ public class AddQuestionActivity extends AppCompatActivity implements AdapterVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
         sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
-
-        String username = sharedPreferences.getString("username", "");
-        testId = sharedPreferences.getString("testId", "");
-
-        if (testId.equals("")) {
-            goToTestScreen();
-        }
 
         setupTestPath();
         setupSpinner();
@@ -108,10 +106,26 @@ public class AddQuestionActivity extends AppCompatActivity implements AdapterVie
             String id = questionsRef.push().getKey();
             // Send data to questions branch on Firebase.
             questionsRef.child(id).setValue(question);
-
+            incrementQuestionCount();
             // Redirect back to add question screen.
             goToTestQuestionScreen();
         }
+    }
+
+    private void incrementQuestionCount() {
+        appStatsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    long num_questions = (Long) dataSnapshot.child("num_questions").getValue();
+                    appStatsRef.child("num_questions").setValue(num_questions + 1);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     // Validate user input and return test object if valid, otherwise null.

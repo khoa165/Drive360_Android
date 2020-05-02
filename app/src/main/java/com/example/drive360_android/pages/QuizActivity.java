@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.drive360_android.Config.userTestsRef;
+import static com.example.drive360_android.Config.adminTestsRef;
 
 public class QuizActivity extends AppCompatActivity {
     private List<Question> questions;
@@ -42,24 +43,35 @@ public class QuizActivity extends AppCompatActivity {
     private Button firstChoiceButton, secondChoiceButton, thirdChoiceButton, fourthChoiceButton;
     private Button nextQuestionButton;
 
+    private DatabaseReference questionsRef;
+    private boolean isAdminTest = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
-
         sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
 
+        setupQuizPath();
+        setupInterface();
+        getQuestions();
+    }
+
+    private void setupQuizPath() {
         String username = sharedPreferences.getString("username", "");
         testId = sharedPreferences.getString("testId", "");
+
+        isAdminTest = sharedPreferences.getBoolean("isAdminTest", false);
 
         if (testId.equals("")) {
             goToTestScreen();
         }
 
-        userQuestionRef = userTestsRef.child(username).child(testId).child("questions");
-
-        setupInterface();
-        getQuestions();
+        if (isAdminTest) {
+            questionsRef = adminTestsRef.child(testId).child("questions");
+        } else {
+            questionsRef = userTestsRef.child(username).child(testId).child("questions");
+        }
     }
 
     private void setupInterface() {
