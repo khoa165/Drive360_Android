@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.drive360_android.R;
 import com.example.drive360_android.forms.AddDiscussionActivity;
+import com.example.drive360_android.models.Discussion;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -72,7 +73,9 @@ public class DiscussionFragment extends ListFragment implements AdapterView.OnIt
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for(DataSnapshot d : dataSnapshot.getChildren()) {
-//                        discussionThreads.add(d.getKey());
+                        Discussion discussion = d.getValue(Discussion.class);
+                        String format = "\n#" + discussion.category + "\n\n" + discussion.content + "\nBy " + discussion.user + "\n";
+                        discussionThreads.add(format);
                     }
 
                     ArrayAdapter adapter = new ArrayAdapter(view.getContext(), android.R.layout.simple_list_item_1, discussionThreads);
@@ -90,6 +93,6 @@ public class DiscussionFragment extends ListFragment implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        // Toast.makeText(getActivity(), "Item: " + position, Toast.LENGTH_SHORT).show();
+//         Toast.makeText(getActivity(), "Item: " + position, Toast.LENGTH_SHORT).show();
     }
 }
