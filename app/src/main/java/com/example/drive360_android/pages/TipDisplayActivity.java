@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -99,7 +100,7 @@ public class TipDisplayActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.tip_menu, menu);
+        inflater.inflate(R.menu.menu, menu);
         return true;
     }
 
@@ -114,10 +115,10 @@ public class TipDisplayActivity extends AppCompatActivity {
             item.setTitle("Welcome " + username);
         }
 
-        /*boolean isAdmin = sharedPreferences.getBoolean("isAdmin", false);
+        boolean isAdmin = sharedPreferences.getBoolean("isAdmin", false);
         if (!isAdmin) {
             menu.findItem(R.id.admin_dashboard).setVisible(false);
-        } */
+        }
 
 
         return super.onPrepareOptionsMenu(menu);
@@ -135,12 +136,7 @@ public class TipDisplayActivity extends AppCompatActivity {
             // Redirect the user to login screen.
             goToLoginScreen();
             return true;
-
         }
-        if (item.getItemId() == R.id.add_tip) {
-            goToAddTipScreen();
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -149,7 +145,7 @@ public class TipDisplayActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void goToAddTipScreen() {
+    public void goToAddTipScreen(View v) {
         Intent intent = new Intent(this, AddTipActivity.class);
         startActivity(intent);
     }
