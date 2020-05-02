@@ -3,7 +3,6 @@ package com.example.drive360_android.pages;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -268,9 +268,11 @@ public class ManualActivity extends AppCompatActivity implements AdapterView.OnI
     public void onNothingSelected(AdapterView<?> arg0) {}
 
     private void goToUrl (String url) {
-        Uri uriUrl = Uri.parse(url);
-        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-        startActivity(launchBrowser);
+//        Uri uriUrl = Uri.parse(url);
+//        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+        Intent launchWebview = new Intent(this, ManualWebviewActivity.class);
+        launchWebview.putExtra("url", url);
+        startActivity(launchWebview);
     }
 
     public void onClick(View v){
@@ -319,12 +321,17 @@ public class ManualActivity extends AppCompatActivity implements AdapterView.OnI
         if (item.getItemId() == R.id.logout) {
             SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360", Context.MODE_PRIVATE);
 
-            // Set isAuthenticated to false and remove username form sharedPreferences.
             sharedPreferences.edit().putBoolean("isAuthenticated", false).apply();
+            sharedPreferences.edit().putBoolean("isAdmin", false).apply();
+            sharedPreferences.edit().putBoolean("isInstructor", false).apply();
+            sharedPreferences.edit().putBoolean("isAdminTest", false).apply();
             sharedPreferences.edit().remove("username").apply();
+            sharedPreferences.edit().remove("testId").apply();
+            sharedPreferences.edit().remove("questionId").apply();
 
             // Redirect the user to login screen.
             goToLoginScreen();
+            Toast.makeText(ManualActivity.this, "Sign out successful!", Toast.LENGTH_LONG).show();
             return true;
 
         }

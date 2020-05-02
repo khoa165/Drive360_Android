@@ -10,13 +10,18 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.drive360_android.R;
 import com.example.drive360_android.pages.TestQuestionsActivity;
 import com.example.drive360_android.models.Test;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
+import static com.example.drive360_android.Config.appStatsRef;
 import static com.example.drive360_android.Config.userTestsRef;
 import static com.example.drive360_android.Config.adminTestsRef;
 
@@ -59,6 +64,7 @@ public class AddTestActivity extends AppCompatActivity {
             String id = testsRef.push().getKey();
             // Send data to tests branch on Firebase.
             testsRef.child(id).setValue(test);
+            incrementTestCount();
 
             sharedPreferences.edit().putString("testId", id).apply();
             sharedPreferences.edit().putBoolean("isAdminTest", isAdminTest).apply();
@@ -66,6 +72,22 @@ public class AddTestActivity extends AppCompatActivity {
             // Transition the user to add question screen.
             goToTestQuestionScreen();
         }
+    }
+
+    private void incrementTestCount() {
+        appStatsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    long num_tests = (Long) dataSnapshot.child("num_tests").getValue();
+                    appStatsRef.child("num_tests").setValue(num_tests + 1);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     // Validate user input and return test object if valid, otherwise null.

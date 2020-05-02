@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.example.drive360_android.R;
 
+<<<<<<< HEAD
 import androidx.annotation.NonNull;
 
 import android.view.View;
@@ -23,6 +24,8 @@ import static com.example.drive360_android.Config.usersRef;
 import java.util.ArrayList;
 import java.util.List;
 
+=======
+>>>>>>> c9fd49d10da9856dfdac411573cf4c9847324ded
 public class ManageUserActivity extends AppCompatActivity {
     private List<String> users;
     private ListView userList;

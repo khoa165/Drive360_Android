@@ -1,5 +1,9 @@
 package com.example.drive360_android.pages;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,15 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.drive360_android.R;
 import com.example.drive360_android.auth.LoginActivity;
-import com.example.drive360_android.forms.AddTestActivity;
+import com.example.drive360_android.forms.AddClassroomActivity;
+import com.example.drive360_android.models.Classroom;
 import com.example.drive360_android.models.Test;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,72 +29,63 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.drive360_android.Config.userTestsRef;
-import static com.example.drive360_android.Config.adminTestsRef;
+import static com.example.drive360_android.Config.classroomsRef;
 
-public class TestActivity extends AppCompatActivity {
+public class ClassroomDashboardActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
-    private DatabaseReference singleUserTestRef;
-    private List<String> tests;
+    private DatabaseReference singleUserClassroomRef;
+    private List<String> classrooms;
     private List<String> firebaseIds;
-    private List<Boolean> isAdminTests;
     private ListView listView;
+    private boolean isInstructor = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
+        setContentView(R.layout.activity_classroom_dashboard);
         sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
 
         // Get current user's username.
         String username = sharedPreferences.getString("username", "");
         // Initialize user test references.
-        singleUserTestRef = userTestsRef.child(username);
+        singleUserClassroomRef = classroomsRef.child(username);
 
+        setupAddClassAuthorization();
         setupListView();
-        setupTestItemListener();
+        setupClassroomItemListener();
+    }
+
+    private void setupAddClassAuthorization() {
+        isInstructor =  sharedPreferences.getBoolean("isInstructor", false);
+
+        if (!isInstructor) {
+            // Disable add button if user does not have authorization.
+            FloatingActionButton addClassroomButton = (FloatingActionButton) findViewById(R.id.floatingAddButton);
+            CoordinatorLayout.LayoutParams p = (CoordinatorLayout.LayoutParams) addClassroomButton.getLayoutParams();
+            p.setAnchorId(View.NO_ID);
+            addClassroomButton.setLayoutParams(p);
+            addClassroomButton.setVisibility(View.GONE);
+        }
     }
 
     private void setupListView() {
-        tests = new ArrayList<String>();
+        classrooms = new ArrayList<String>();
         firebaseIds = new ArrayList<String>();
-        isAdminTests = new ArrayList<Boolean>();
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, tests);
-        listView = findViewById(R.id.testList);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, classrooms);
+        listView = findViewById(R.id.classroomList);
 
-        adminTestsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        singleUserClassroomRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for(DataSnapshot d1 : dataSnapshot.getChildren()) {
-                        Test test = d1.getValue(Test.class);
-                        tests.add(test.name);
+                        Classroom classroom = d1.getValue(Classroom.class);
+                        classrooms.add(classroom.name);
                         firebaseIds.add(d1.getKey());
-                        isAdminTests.add(true);
                     }
 
                     listView.setAdapter(adapter);
-
-                    singleUserTestRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-                                for(DataSnapshot d2 : dataSnapshot.getChildren()) {
-                                    Test test = d2.getValue(Test.class);
-                                    tests.add(test.name);
-                                    firebaseIds.add(d2.getKey());
-                                    isAdminTests.add(false);
-                                }
-
-                                listView.setAdapter(adapter);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
-                    });
                 }
             }
 
@@ -102,18 +95,22 @@ public class TestActivity extends AppCompatActivity {
         });
     }
 
-    public void setupTestItemListener() {
+    public void setupClassroomItemListener() {
         listView.setOnItemClickListener((parent, view, position, id) -> {
             // Initialize intent to take user to TestQuestionsActivity.
-            Intent intent = new Intent(getApplicationContext(), TestQuestionsActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ClassroomActivity.class);
 
-            String testId = firebaseIds.get(position);
-            boolean isAdminTest = isAdminTests.get(position);
-            sharedPreferences.edit().putString("testId", testId).apply();
-            sharedPreferences.edit().putBoolean("isAdminTest", isAdminTest).apply();
+            String classroomId = firebaseIds.get(position);
+            sharedPreferences.edit().putString("classroomId", classroomId).apply();
 
             startActivity(intent);
         });
+    }
+
+    // Transition to add test screen.
+    public void goToAddClassroomScreen(View view) {
+        Intent intent = new Intent(this, AddClassroomActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -153,7 +150,6 @@ public class TestActivity extends AppCompatActivity {
 
             // Redirect the user to login screen.
             goToLoginScreen();
-            Toast.makeText(TestActivity.this, "Sign out successful!", Toast.LENGTH_LONG).show();
             return true;
         } else if (item.getItemId() == R.id.admin_dashboard) {
             goToAdminDashboardScreen();
@@ -171,12 +167,6 @@ public class TestActivity extends AppCompatActivity {
     // Transition to admin dashboard screen.
     private void goToAdminDashboardScreen() {
         Intent intent = new Intent(this, AdminDashboardActivity.class);
-        startActivity(intent);
-    }
-
-    // Transition to add test screen.
-    public void goToAddTestScreen(View view) {
-        Intent intent = new Intent(this, AddTestActivity.class);
         startActivity(intent);
     }
 }

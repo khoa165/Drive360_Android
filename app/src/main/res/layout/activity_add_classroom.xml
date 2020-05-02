@@ -5,11 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="50dp"
-    app:srcCompat="@drawable/test_image"
-    tools:context=".forms.AddTestActivity">
+    tools:context=".forms.AddClassroomActivity">
 
     <ImageView
-        android:id="@+id/backgroundTestImage"
+        android:id="@+id/backgroundClassroomImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
@@ -20,97 +19,91 @@
         app:srcCompat="@drawable/test_image" />
 
     <TextView
-        android:id="@+id/addTestHeading"
+        android:id="@+id/addClassroomHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_test_heading"
+        android:text="Create new classroom"
         android:textSize="25dp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05" />
-
-    <TextView
-        android:id="@+id/isAdminTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Admin test?"
-        android:textSize="15dp"
-        android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.15" />
-
-    <Switch
-        android:id="@+id/adminTestSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/isAdminTest"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintVertical_bias="0.1" />
 
     <EditText
-        android:id="@+id/testName"
+        android:id="@+id/classroomName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_dark_background"
         android:ems="10"
-        android:fontFamily="@font/arimo"
-        android:hint="@string/test_name_hint"
-        android:inputType="textPersonName"
-        android:textColor="#fff"
         android:textColorHint="#fff"
+        android:textColor="#fff"
+        android:fontFamily="@font/arimo"
+        android:inputType="textPersonName"
+        android:hint="Give your classroom a name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/adminTestSwitch"
-        app:layout_constraintVertical_bias="0.043" />
+        app:layout_constraintTop_toBottomOf="@id/addClassroomHeading"
+        app:layout_constraintVertical_bias="0.1" />
 
     <EditText
-        android:id="@+id/testDescription"
+        android:id="@+id/classroomDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:background="@drawable/rounded_dark_background"
         android:ems="10"
+        android:layout_marginTop="15dp"
+        android:textColorHint="#fff"
+        android:textColor="#fff"
         android:gravity="start|top"
-        android:hint="@string/test_description_hint"
+        android:hint="Brief description of your class"
         android:inputType="textMultiLine"
         android:maxLines="20"
         android:minLines="8"
         android:scrollbars="vertical"
         android:scrollHorizontally="false"
-        android:textColor="#fff"
-        android:textColorHint="#fff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/testName"
-        app:layout_constraintVertical_bias="0.15" />
+        app:layout_constraintTop_toBottomOf="@id/classroomName"
+        app:layout_constraintVertical_bias="0.01" />
+
+    <EditText
+        android:id="@+id/classroomWebsite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_dark_background"
+        android:ems="10"
+        android:textColorHint="#fff"
+        android:textColor="#fff"
+        android:fontFamily="@font/arimo"
+        android:inputType="textPersonName"
+        android:hint="Link to classroom website"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/classroomDescription"
+        app:layout_constraintVertical_bias="0.1" />
 
     <Button
         android:id="@+id/submitButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_dark_background"
-        android:fontFamily="@font/arimo"
-        android:onClick="createTest"
         android:padding="15dp"
-        android:text="Submit"
         android:textColor="#fff"
+        android:fontFamily="@font/arimo"
+        android:onClick="createClassroom"
+        android:text="Create"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/testDescription"
-        app:layout_constraintVertical_bias="0.349" />
+        app:layout_constraintTop_toBottomOf="@id/classroomDescription"
+        app:layout_constraintVertical_bias="0.4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

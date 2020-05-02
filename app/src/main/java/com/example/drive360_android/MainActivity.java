@@ -13,14 +13,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.drive360_android.auth.LoginActivity;
-import com.example.drive360_android.forms.AddTipActivity;
 import com.example.drive360_android.forms.FeedbackActivity;
 import com.example.drive360_android.pages.AdminDashboardActivity;
+import com.example.drive360_android.pages.ClassroomDashboardActivity;
 import com.example.drive360_android.pages.LearnActivity;
-import com.example.drive360_android.pages.TestActivity;
-import com.example.drive360_android.pages.ManualActivity;
 
 import java.util.Calendar;
 
@@ -92,13 +91,16 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.logout) {
             SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
 
-            // Set isAuthenticated to false and remove username form sharedPreferences.
             sharedPreferences.edit().putBoolean("isAuthenticated", false).apply();
             sharedPreferences.edit().putBoolean("isAdmin", false).apply();
+            sharedPreferences.edit().putBoolean("isInstructor", false).apply();
             sharedPreferences.edit().remove("username").apply();
+            sharedPreferences.edit().remove("testId").apply();
+            sharedPreferences.edit().remove("questionId").apply();
 
             // Redirect the user to login screen.
             goToLoginScreen();
+            Toast.makeText(MainActivity.this, "Sign out successful!", Toast.LENGTH_LONG).show();
             return true;
         } else if (item.getItemId() == R.id.admin_dashboard) {
             goToAdminDashboardScreen();
@@ -147,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         // Makes sure alarm will fire and wake up screen (1st arg)
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), 1000 * 60 * 60 * 24, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmTime.getTimeInMillis(), 1000 * 60 * 60 * 24 * 7, pendingIntent);
     }
 
     public void btnLoadUnity(View v) {
@@ -162,9 +164,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // Transition to classroom screen.
-    public void goToClassroomScreen(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+    // Transition to classroom dashboard screen.
+    public void goToClassroomDashboardScreen(View view) {
+        Intent intent = new Intent(this, ClassroomDashboardActivity.class);
         startActivity(intent);
     }
 
