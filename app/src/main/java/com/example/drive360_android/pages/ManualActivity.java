@@ -3,7 +3,6 @@ package com.example.drive360_android.pages;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -269,9 +268,11 @@ public class ManualActivity extends AppCompatActivity implements AdapterView.OnI
     public void onNothingSelected(AdapterView<?> arg0) {}
 
     private void goToUrl (String url) {
-        Uri uriUrl = Uri.parse(url);
-        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-        startActivity(launchBrowser);
+//        Uri uriUrl = Uri.parse(url);
+//        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+        Intent launchWebview = new Intent(this, ManualWebviewActivity.class);
+        launchWebview.putExtra("url", url);
+        startActivity(launchWebview);
     }
 
     public void onClick(View v){
