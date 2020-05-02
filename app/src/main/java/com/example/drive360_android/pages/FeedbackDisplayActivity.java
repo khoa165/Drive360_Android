@@ -1,5 +1,4 @@
 package com.example.drive360_android.pages;
-import static com.example.drive360_android.Config.tipsRef;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,22 +27,7 @@ public class FeedbackDisplayActivity extends AppCompatActivity {
 
     private void setupListView() {
         feedback = new ArrayList<String>();
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, feedback){
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent){
-            // Get the Item from ListView
-            View view = super.getView(position, convertView, parent);
-
-            // Initialize a TextView for ListView each Item
-            TextView tv = (TextView) view.findViewById(android.R.id.text1);
-
-            // Set the text color of TextView (ListView Item)
-            tv.setTextColor(Color.parseColor("#CC0C0C"));
-
-            // Generate ListView Item using TextView
-            return view;
-        }
-    };
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, feedback);
         feedbacksRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

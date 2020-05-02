@@ -10,4 +10,5 @@ public class Config {
     public static DatabaseReference userTestsRef = rootRef.child("user_tests");
     public static DatabaseReference feedbacksRef = rootRef.child("feedbacks");
     public static DatabaseReference tipsRef = rootRef.child("tips");
+    public static DatabaseReference usersRef = rootRef.child("users");
 }

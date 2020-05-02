@@ -26,7 +26,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
     }
 
     public void goToManageUsersScreen(View view) {
-        Intent intent = new Intent(this, AppStatsActivity.class);
+        Intent intent = new Intent(this, ManageUserActivity.class);
         startActivity(intent);
     }
 
