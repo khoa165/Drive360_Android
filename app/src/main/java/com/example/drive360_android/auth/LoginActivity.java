@@ -58,14 +58,20 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // Retrieve expected password, salt, and isAdmin from Firebase.
+                    // Retrieve expected password, role, and isAdmin from Firebase.
                     boolean isAdmin = (Boolean) dataSnapshot.child("isAdmin").getValue();
+                    String role = (String) dataSnapshot.child("role").getValue();
                     String expected = (String) dataSnapshot.child("password").getValue();
                     boolean isAuthenticated = PasswordHash.checkPasswordsMatch(password, expected, null);
 
                     // If user is authenticated, set shared preferences.
                     if (isAuthenticated) {
                         SharedPreferences sharedPreferences = getSharedPreferences("com.example.drive360_android", Context.MODE_PRIVATE);
+
+                        if (role != null && !role.equals("")) {
+                            boolean isInstructor = role.equals("Instructor");
+                            sharedPreferences.edit().putBoolean("isInstructor", isInstructor).apply();
+                        }
 
                         // Set isAuthenticated to true and pass in username for main screen.
                         sharedPreferences.edit().putBoolean("isAuthenticated", true).apply();

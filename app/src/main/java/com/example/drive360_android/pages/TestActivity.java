@@ -48,8 +48,6 @@ public class TestActivity extends AppCompatActivity {
         // Initialize user test references.
         singleUserTestRef = userTestsRef.child(username);
 
-        System.out.println("HARRY DEBUG HERE: " + tests == null);
-
         setupListView();
         setupTestItemListener();
     }
@@ -144,9 +142,13 @@ public class TestActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.logout) {
-            // Set isAuthenticated to false and remove username form sharedPreferences.
             sharedPreferences.edit().putBoolean("isAuthenticated", false).apply();
+            sharedPreferences.edit().putBoolean("isAdmin", false).apply();
+            sharedPreferences.edit().putBoolean("isInstructor", false).apply();
+            sharedPreferences.edit().putBoolean("isAdminTest", false).apply();
             sharedPreferences.edit().remove("username").apply();
+            sharedPreferences.edit().remove("testId").apply();
+            sharedPreferences.edit().remove("questionId").apply();
 
             // Redirect the user to login screen.
             goToLoginScreen();
