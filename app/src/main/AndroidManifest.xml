@@ -15,7 +15,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon,android:theme">
-        <activity android:name=".pages.ClassroomActivity"></activity>
+        <activity
+            android:name=".forms.AddClassroomActivity"
+            android:parentActivityName=".pages.ClassroomDashboardActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".pages.ClassroomDashboardActivity"
+            android:parentActivityName=".pages.LearnActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".pages.ClassroomActivity"
+            android:parentActivityName=".pages.ClassroomDashboardActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".pages.AdminDashboardActivity"
             android:parentActivityName=".MainActivity"
