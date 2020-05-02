@@ -6,6 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".pages.TestQuestionsActivity">
 
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="519dp"
+        android:layout_height="750dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/road"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66ffffff"
+        android:orientation="vertical"
+        android:paddingHorizontal="40dp"
+        android:paddingVertical="50dp">
+    </LinearLayout>
+
     <Button
         android:id="@+id/startQuizButton"
         android:layout_width="match_parent"

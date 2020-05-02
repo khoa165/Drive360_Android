@@ -19,6 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class ClassroomActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigation;
     private SharedPreferences sharedPreferences;
+    Fragment selectedFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,14 +81,13 @@ public class ClassroomActivity extends AppCompatActivity {
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFragment = null;
 
                     switch (item.getItemId()) {
                         case R.id.nav_discussion:
                             selectedFragment = new DiscussionFragment();
                             break;
                         case R.id.nav_files:
-                            selectedFragment = new MembersFragment();
+                            selectedFragment = new WebviewFragment();
                             break;
                         case R.id.nav_members:
                             selectedFragment = new MembersFragment();
