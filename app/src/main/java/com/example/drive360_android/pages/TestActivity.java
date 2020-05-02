@@ -48,6 +48,8 @@ public class TestActivity extends AppCompatActivity {
         // Initialize user test references.
         singleUserTestRef = userTestsRef.child(username);
 
+        System.out.println("HARRY DEBUG HERE: " + tests == null);
+
         setupListView();
         setupTestItemListener();
     }

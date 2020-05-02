@@ -23,15 +23,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.drive360_android.Config.userTestsRef;
+import static com.example.drive360_android.Config.adminTestsRef;
 
 public class AddQuestionActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private DatabaseReference userQuestionRef;
+    private DatabaseReference questionsRef;
     private Spinner spinner;
     private String testId;
     private boolean validAnswer;
     private static final String[] answerChoices
             = {"Please set the correct answer", "A", "B", "C", "D"};
     private SharedPreferences sharedPreferences;
+    private boolean isAdminTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +48,24 @@ public class AddQuestionActivity extends AppCompatActivity implements AdapterVie
             goToTestScreen();
         }
 
-        userQuestionRef = userTestsRef.child(username).child(testId).child("questions");
-
+        setupTestPath();
         setupSpinner();
+    }
+
+    private void setupTestPath() {
+        String username = sharedPreferences.getString("username", "");
+        testId = sharedPreferences.getString("testId", "");
+        isAdminTest = sharedPreferences.getBoolean("isAdminTest", false);
+
+        if (testId.equals("")) {
+            goToTestScreen();
+        }
+
+        if (isAdminTest) {
+            questionsRef = adminTestsRef.child(testId).child("questions");
+        } else {
+            questionsRef = userTestsRef.child(username).child(testId).child("questions");
+        }
     }
 
     public void setupSpinner () {
@@ -88,9 +105,9 @@ public class AddQuestionActivity extends AppCompatActivity implements AdapterVie
 
         if (question != null) {
             // Generate id;
-            String id = userQuestionRef.push().getKey();
+            String id = questionsRef.push().getKey();
             // Send data to questions branch on Firebase.
-            userQuestionRef.child(id).setValue(question);
+            questionsRef.child(id).setValue(question);
 
             // Redirect back to add question screen.
             goToTestQuestionScreen();
