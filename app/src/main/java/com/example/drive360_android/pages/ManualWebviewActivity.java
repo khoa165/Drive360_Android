@@ -33,6 +33,7 @@ public class ManualWebviewActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        // Override Android back button to go back in webview
         if (webView.canGoBack()) {
             webView.goBack();
         } else {
