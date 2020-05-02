@@ -6,10 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import com.example.drive360_android.R;
-
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 import androidx.annotation.NonNull;
 
 import android.view.View;
@@ -40,7 +36,7 @@ public class ManageUserActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     for(DataSnapshot d : dataSnapshot.getChildren()) {
                         User u = d.getValue(User.class);
-                        users.add("User: " + u.username + "\nRole: " + u.role + "\nAdmin: " + u.isAdmin);
+                        users.add("\nUser: " + u.username + "\nRole: " + u.role + "\nAdmin: " + u.isAdmin + "\n");
 
                     }
                     userList.setAdapter(adapter);

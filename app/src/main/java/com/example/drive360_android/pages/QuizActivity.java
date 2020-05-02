@@ -169,7 +169,7 @@ public class QuizActivity extends AppCompatActivity {
                 incorrectButton.setBackgroundColor(getResources().getColor(R.color.red));
                 if (firstAttemptUsed) {
                     Toast.makeText(this, "Keep practicing. You will conquer this next time!", Toast.LENGTH_LONG).show();
-                    Button correctButton = answerButtons.get(choice);
+                    Button correctButton = answerButtons.get(correctAnswers.get(currentQuestion));
                     correctButton.setBackgroundColor(getResources().getColor(R.color.green));
                     checkNextQuestionAvailable();
                 } else {

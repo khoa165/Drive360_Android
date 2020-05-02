@@ -8,15 +8,9 @@ public class User {
     public int age;
     public boolean isAdmin;
     public String role;
-    public User(){
-
-<<<<<<< HEAD
-    }
-=======
     public User() {
     }
 
->>>>>>> c9fd49d10da9856dfdac411573cf4c9847324ded
     public User(String username, String password, String role) {
         this.username = username;
         hashPassword(password);
