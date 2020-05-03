@@ -45,17 +45,3 @@ Drive 360 helps students in driver’s education classes learn the rules of driv
 <img src="Screenshots/Drive360_11.PNG">
 
 <img src="Screenshots/Drive360_12.PNG">
-
-## Wireframes
-
-<img src="Wireframes/wireframe1.png" width="500" height="250">
-
-<img src="Wireframes/wireframe2.png" width="500" height="250">
-
-<img src="Wireframes/wireframe3.png" width="500" height="250">
-
-<img src="Wireframes/wireframe4.png" width="500" height="250">
-
-<img src="Wireframes/wireframe5.png" width="500" height="250">
-
-<img src="Wireframes/wireframe6.png" width="500" height="250">
