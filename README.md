@@ -24,26 +24,15 @@ Drive 360 helps students in driver’s education classes learn the rules of driv
 
 <p float="left">
     <img src="Screenshots/Drive360_1.PNG">
-
     <img src="Screenshots/Drive360_2.PNG">
-
     <img src="Screenshots/Drive360_3.PNG">
-
     <img src="Screenshots/Drive360_4.PNG">
-
     <img src="Screenshots/Drive360_5.PNG">
-
     <img src="Screenshots/Drive360_6.PNG">
-
     <img src="Screenshots/Drive360_7.PNG">
-
     <img src="Screenshots/Drive360_8.PNG">
-
     <img src="Screenshots/Drive360_9.PNG">
-
     <img src="Screenshots/Drive360_10.PNG">
-
     <img src="Screenshots/Drive360_11.PNG">
-
     <img src="Screenshots/Drive360_12.PNG">
 </p>
