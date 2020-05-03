@@ -59,27 +59,3 @@ Drive 360 helps students in driver’s education classes learn the rules of driv
 <img src="Wireframes/wireframe5.png" width="500" height="250">
 
 <img src="Wireframes/wireframe6.png" width="500" height="250">
-
-## Resources
-
-These are some of the resources I used when embedding a VR Unity app inside an Android application that has large assets. There were many issues so I hope this helps :) :
-
-- [Embedded Unity within Android App](https://medium.com/@davidbeloosesky/embedded-unity-within-android-app-7061f4f473a)
-
-- [Integration Unity as a library in native Android app Version 2](https://forum.unity.com/threads/integration-unity-as-a-library-in-native-android-app-version-2.751712/)
-
-- The first two links have a section for comments which helped me solve some errors.
-
-- [Git LFS Tutorial (Migration + using Git LFS for already tracked asset)](https://github.com/git-lfs/git-lfs/wiki/Tutorial)
-
-- [Git Large File Storage - How to Work with Big Files](https://www.youtube.com/watch?v=uLR1RNqJ1Mw)
-
-- [INSTALL_FAILED_NO_MATCHING_ABIS when install apk](https://stackoverflow.com/questions/24572052/install-failed-no-matching-abis-when-install-apk)
-
-- [How to solve “libmain.so not found” while using Unity as a library in Android application with latest AndroidX Versions out of ReactNative](https://stackoverflow.com/questions/58877735/how-to-solve-libmain-so-not-found-while-using-unity-as-a-library-in-android-ap)
-
-- [Crashes on Android due to error "libmain.so not found"](https://github.com/f111fei/react-native-unity-view/issues/142#issuecomment-557162700)
-
-- [Why is the Unity Video Player not working? (Video not playing in Android)](https://github.com/f111fei/react-native-unity-view/issues/77)
-
-- [Fix Unity merge conflicts with these commands](https://stackoverflow.com/questions/38536896/git-reset-hard-origin-master-failing)
