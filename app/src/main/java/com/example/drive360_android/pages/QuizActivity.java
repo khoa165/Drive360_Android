@@ -35,6 +35,7 @@ public class QuizActivity extends AppCompatActivity {
     private boolean secondAttemptUsed = false;
     private int firstAttemptCorrect = 0;
     private int secondAttemptCorrect = 0;
+    private boolean questionDone = false;
     private boolean quizDone = false;
 
     private TextView questionTitle;
@@ -162,7 +163,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void processUserAnswer(int choice) {
-        if (!secondAttemptUsed) {
+        if (!secondAttemptUsed && !questionDone) {
             boolean isCorrect = choice == correctAnswers.get(currentQuestion);
             if (!isCorrect) {
                 Button incorrectButton = answerButtons.get(choice);
@@ -196,6 +197,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void checkNextQuestionAvailable() {
+        questionDone = true;
         nextQuestionButton.setVisibility(View.VISIBLE);
         if (currentQuestion == questions.size() - 1) {
             nextQuestionButton.setText("See results");
@@ -211,6 +213,7 @@ public class QuizActivity extends AppCompatActivity {
             intent.putExtra("numQuestions", questions.size());
             startActivity(intent);
         } else {
+            questionDone = false;
             currentQuestion++;
             setupQuestion();
             resetFields();

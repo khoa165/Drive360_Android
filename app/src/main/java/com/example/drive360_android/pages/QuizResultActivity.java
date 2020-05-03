@@ -44,7 +44,8 @@ public class QuizResultActivity extends AppCompatActivity {
                 numberIncorrectQuestionsStatement.setText("Yay, you got all " + numQuestions + " questions correct.");
             }
 
-            totalQuizScore.setText("Your total score is " + score + "/100!");
+            String formattedScore = String.format("%.2f", score);
+            totalQuizScore.setText("Your total score is " + formattedScore + "/100!");
         }
     }
 

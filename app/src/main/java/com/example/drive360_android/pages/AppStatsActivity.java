@@ -112,7 +112,8 @@ public class AppStatsActivity extends AppCompatActivity {
                     }
                     if (feedbackCount > 0) {
                         TextView tv = findViewById(R.id.averageRating);
-                        tv.setText("Average app rating: " + appRating / feedbackCount);
+                        String rating = String.format("%.2f", appRating / feedbackCount);
+                        tv.setText("Average app rating: " + rating);
                     }
 
                 }
