@@ -31,17 +31,17 @@ The application will be built with VR technology, programmed on Unity and its fr
 
 ## Wireframes
 
-<img src="Images/wireframe1.png" width="500" height="250">
+<img src="Wireframes/wireframe1.png" width="500" height="250">
 
-<img src="Images/wireframe2.png" width="500" height="250">
+<img src="Wireframes/wireframe2.png" width="500" height="250">
 
-<img src="Images/wireframe3.png" width="500" height="250">
+<img src="Wireframes/wireframe3.png" width="500" height="250">
 
-<img src="Images/wireframe4.png" width="500" height="250">
+<img src="Wireframes/wireframe4.png" width="500" height="250">
 
-<img src="Images/wireframe5.png" width="500" height="250">
+<img src="Wireframes/wireframe5.png" width="500" height="250">
 
-<img src="Images/wireframe6.png" width="500" height="250">
+<img src="Wireframes/wireframe6.png" width="500" height="250">
 
 
 ## VR Wireframes Description
