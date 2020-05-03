@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="40dp"
     tools:context=".forms.AddQuestionActivity">
 
     <ImageView
@@ -32,7 +33,7 @@
 
     <EditText
         android:id="@+id/questionName"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_dark_background"
         android:ems="10"
@@ -54,7 +55,7 @@
 
     <EditText
         android:id="@+id/questionFirstChoice"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_dark_background"
         android:textSize="15dp"
@@ -73,7 +74,7 @@
 
     <EditText
         android:id="@+id/questionSecondChoice"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_dark_background"
         android:textSize="15dp"
@@ -92,7 +93,7 @@
 
     <EditText
         android:id="@+id/questionThirdChoice"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_dark_background"
         android:textSize="15dp"
@@ -111,7 +112,7 @@
 
     <EditText
         android:id="@+id/questionFourthChoice"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_dark_background"
         android:textSize="15dp"
@@ -130,7 +131,7 @@
 
     <Spinner
         android:id="@+id/questionCorrectAnswer"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#eee"
         android:textSize="10dp"
